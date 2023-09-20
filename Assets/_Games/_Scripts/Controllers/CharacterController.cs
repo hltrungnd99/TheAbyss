@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CharacterController : MonoBehaviour
@@ -18,6 +16,8 @@ public class CharacterController : MonoBehaviour
     private void Start()
     {
         statCharacter = statsCharacterBase.statCharacter;
+
+        SetupStart();
     }
 
     private void Update()
@@ -63,6 +63,16 @@ public class CharacterController : MonoBehaviour
         Move();
 
 #endif
+    }
+
+    protected virtual void SetupStart()
+    {
+
+    }
+
+    protected virtual void SetupUpdate()
+    {
+
     }
 
     private void Move()
@@ -112,5 +122,10 @@ public class CharacterController : MonoBehaviour
     private void Attack()
     {
         animatorCharacter.SetTrigger("attack");
+    }
+
+    protected void ChangeState()
+    {
+
     }
 }

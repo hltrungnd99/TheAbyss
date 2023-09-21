@@ -4,5 +4,10 @@ using UnityEngine;
 public class StatsCharacterBase : ScriptableObject
 {
     public StatCharacter statCharacter;
+
+    public void Clone(StatsCharacterBase statsCharacterBase2)
+    {
+
+    }
 }
 

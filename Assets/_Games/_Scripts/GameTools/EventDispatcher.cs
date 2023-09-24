@@ -46,5 +46,6 @@ public static class EventDispatcher
 
 public enum EventName
 {
-    ATTACK
+    ATTACK,
+    TAKE_DAMAGE
 }

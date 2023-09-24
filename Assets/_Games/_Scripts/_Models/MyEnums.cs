@@ -18,3 +18,11 @@ public enum EStatusATKType
     KNOCK_BACK,
     STUN
 }
+
+public enum ECharacterState
+{
+    IDLE,
+    MOVE,
+    ATTACK,
+    DIE
+}

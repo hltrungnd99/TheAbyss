@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Reflection;
 
 [Serializable]
 public class StatCharacter
@@ -9,7 +11,9 @@ public class StatCharacter
 
     public void Clone(StatCharacter statCharacter2)
     {
-        //this.statCharacterATK.Clone(statCharacterATK2)
+        this.statCharacterATK.Clone(statCharacter2.statCharacterATK);
+        this.statCharacterDMF.Clone(statCharacter2.statCharacterDMF);
+        this.statCharacterOther.Clone(statCharacter2.statCharacterOther);
     }
 }
 
@@ -74,5 +78,45 @@ public class StatCharacterOther
 public class StatusATK
 {
     public EStatusATKType eStatusATKType;
-    public float damage;
+    public List<PropertyAffect> lstPropertyAffect = new List<PropertyAffect>();
 }
+
+[Serializable]
+public class PropertyAffect
+{
+    public string propertyName;
+    public float damage;
+    public float time;
+}
+
+
+
+//public class MyClass
+//{
+//    public string MyProperty { get; set; }
+//}
+
+//public class Program
+//{
+//    public static void Main()
+//    {
+//        MyClass myObject = new MyClass();
+//        myObject.MyProperty = "Giá trị của thuộc tính";
+
+//        // Tên của thuộc tính bạn muốn gọi
+//        string propertyName = "MyProperty";
+
+//        // Sử dụng reflection để gọi thuộc tính bằng chuỗi
+//        Type type = myObject.GetType();
+//        PropertyInfo propertyInfo = type.GetProperty(propertyName);
+//        if (propertyInfo != null)
+//        {
+//            object propertyValue = propertyInfo.GetValue(myObject);
+//            Console.WriteLine($"Giá trị của thuộc tính {propertyName} là: {propertyValue}");
+//        }
+//        else
+//        {
+//            Console.WriteLine($"Không tìm thấy thuộc tính có tên {propertyName}");
+//        }
+//    }
+//}

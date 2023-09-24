@@ -4,18 +4,18 @@ using UnityEngine;
 
 public class IdleStateMachine : StateMachine
 {
-    public override void OnExcute()
+    public override void OnExcute(CharacterController tInput)
     {
-        
+        tInput.ExcuteIdle();
     }
 
-    public override void OnExit()
+    public override void OnExit(CharacterController tInput)
     {
-        
+        tInput.ExitIdle();
     }
 
-    public override void OnStart()
+    public override void OnStart(CharacterController tInput)
     {
-        
+        tInput.StartIdle();
     }
 }

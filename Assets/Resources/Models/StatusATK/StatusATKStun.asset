@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: StatusATKStun
   m_EditorClassIdentifier: 
   statusATK:
-    eStatusATKType: 0
-    damage: 0
+    eStatusATKType: 7
+    lstPropertyAffect: []

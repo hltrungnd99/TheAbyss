@@ -7,14 +7,16 @@ public class CharacterController : MonoBehaviour
     [SerializeField] protected StatsCharacterBase statsCharacterBase;
     [SerializeField] protected Animator animatorCharacter;
 
+    protected ECharacterState eCharacterState;
     protected Vector3 directionMove = Vector3.zero;
     protected bool isCanMove;
-
-    private string currentStateAnim;
+    protected bool IsDead => statCharacter.statCharacterDMF.HP <= 0 || eCharacterState == ECharacterState.DIE;
 
     public StatCharacter statCharacter;
 
     private StateMachine currentStateMachine;
+    private string currentStateAnim;
+    private float takeMoreDamage;
 
     private void Start()
     {
@@ -27,9 +29,14 @@ public class CharacterController : MonoBehaviour
     {
         if (currentStateMachine != null)
         {
-            currentStateMachine.OnExcute();
+            currentStateMachine.OnExcute(this);
         }
         SetupUpdate();
+    }
+
+    private void FixedUpdate()
+    {
+        SetupFixedUpdate();
     }
 
     protected virtual void SetupStart()
@@ -41,6 +48,123 @@ public class CharacterController : MonoBehaviour
     {
 
     }
+
+    protected virtual void SetupFixedUpdate()
+    {
+
+    }
+
+    #region Idle
+
+    protected virtual void Idle()
+    {
+        ChangeState(new IdleStateMachine());
+    }
+
+    public virtual void StartIdle()
+    {
+        eCharacterState = ECharacterState.IDLE;
+    }
+
+    public virtual void ExcuteIdle()
+    {
+
+    }
+
+    public virtual void ExitIdle()
+    {
+
+    }
+
+    #endregion
+
+    #region Move
+
+    protected virtual void Move()
+    {
+        ChangeState(new MoveStateMachine());
+    }
+
+    public virtual void StartMove()
+    {
+        eCharacterState = ECharacterState.MOVE;
+    }
+
+    public virtual void ExcuteMove()
+    {
+
+    }
+
+    public virtual void ExitMove()
+    {
+
+    }
+
+    #endregion
+
+    #region Move
+
+    protected virtual void Attack()
+    {
+        ChangeState(new MoveStateMachine());
+    }
+
+    public virtual void StartAttack()
+    {
+        eCharacterState = ECharacterState.ATTACK;
+    }
+
+    public virtual void ExcuteAttack()
+    {
+
+    }
+
+    public virtual void ExitAttack()
+    {
+
+    }
+
+    #endregion
+
+    #region Take damage
+
+    public virtual void TakeDamage(CharacterController attacker)
+    {
+        if (IsCanHit(attacker))
+        {
+            var damage = Random.Range(attacker.statCharacter.statCharacterATK.minATK, attacker.statCharacter.statCharacterATK.maxATK);
+            damage = (damage * 2) / (damage + (statCharacter.statCharacterDMF.def - (statCharacter.statCharacterDMF.def * attacker.statCharacter.statCharacterATK.penetrate)));
+            if (IsCriticalDamage(attacker))
+            {
+                damage = damage + (damage * attacker.statCharacter.statCharacterATK.criticalDamage);
+            }
+            damage = damage + (damage * takeMoreDamage);
+            damage = damage - (damage * statCharacter.statCharacterDMF.damageReduction);
+            Debug.LogError("damage: " + damage);
+            statCharacter.statCharacterDMF.HP -= damage;
+            this.PostEvent(EventName.TAKE_DAMAGE, new object[] { attacker, this });
+        }
+        else
+        {
+            Debug.LogError("Ne damage");
+        }
+    }
+
+    protected virtual bool IsCriticalDamage(CharacterController attacker)
+    {
+        var rand = Random.Range(1, 101);
+        var percent = Mathf.RoundToInt(attacker.statCharacter.statCharacterATK.criticalRate);
+        return percent >= rand;
+    }
+
+    protected virtual bool IsCanHit(CharacterController attacker)
+    {
+        var rand = Random.Range(1, 101);
+        var percent = Mathf.RoundToInt(Mathf.Clamp((100 - attacker.statCharacter.statCharacterATK.accurate) + statCharacter.statCharacterDMF.evasion, 0, 95));
+        return rand > percent;
+    }
+
+    #endregion
 
     //private void Move()
     //{
@@ -95,9 +219,9 @@ public class CharacterController : MonoBehaviour
     {
         if (currentStateMachine != stateMachine)
         {
-            if (currentStateMachine != null) currentStateMachine.OnExit();
+            if (currentStateMachine != null) currentStateMachine.OnExit(this);
             currentStateMachine = stateMachine;
-            if (currentStateMachine != null) currentStateMachine.OnStart();
+            if (currentStateMachine != null) currentStateMachine.OnStart(this);
         }
     }
 }

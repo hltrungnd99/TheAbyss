@@ -1,6 +1,6 @@
 public abstract class StateMachine
 {
-    public abstract void OnStart();
-    public abstract void OnExcute();
-    public abstract void OnExit();
+    public abstract void OnStart(EnemyController cha);
+    public abstract void OnExcute(EnemyController cha);
+    public abstract void OnExit(EnemyController cha);
 }

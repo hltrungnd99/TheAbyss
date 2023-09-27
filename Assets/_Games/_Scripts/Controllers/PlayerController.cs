@@ -4,50 +4,54 @@ using UnityEngine;
 
 public class PlayerController : CharacterController
 {
+    [SerializeField] protected GameObject joystickPrefab;
+    [SerializeField] protected GameObject joystickTf;
+    [SerializeField] protected JoystickController joystickController;
+    [SerializeField] protected float speed;
+
+    private void Awake()
+    {
+        // joystickController = Instantiate(joystickPrefab, joystickTf.transform).GetComponent<JoystickController>();
+    }
+    private void FixedUpdate()
+    {
+        SetupFixUpdate();
+    }
+    protected override void SetupStart()
+    {
+        base.SetupStart();
+    }
     protected override void SetupUpdate()
     {
         base.SetupUpdate();
+       
 
-//#if UNITY_EDITOR
+    }
+    protected virtual void SetupFixUpdate()
+    {
+        if (Input.GetMouseButton(0))
+        {
+            Move();
+        }
+        else
+        {
+            Idle();
+        }
+    }
 
-//        if (Input.GetKey(KeyCode.W))
-//        {
-//            directionMove.z = 1;
-//        }
-
-//        if (Input.GetKey(KeyCode.S))
-//        {
-//            directionMove.z = -1;
-//        }
-
-//        if (Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.S))
-//        {
-//            directionMove.z = 0;
-//        }
-
-//        if (Input.GetKey(KeyCode.A))
-//        {
-//            directionMove.x = -1;
-//        }
-
-//        if (Input.GetKey(KeyCode.D))
-//        {
-//            directionMove.x = 1;
-//        }
-
-//        if (Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.D))
-//        {
-//            directionMove.x = 0;
-//        }
-
-//        if (Input.GetKeyDown(KeyCode.K))
-//        {
-//            Attack();
-//        }
-
-//        Rotate();
-//        Move();
-
-//#endif
+    public override void Idle()
+    {
+        base.Idle();
+        myRig.velocity = Vector3.zero;
+    }
+    public override void Move()
+    {
+        base.Move();
+        Vector3 direc = joystickController.Direction;
+        myRig.velocity = direc * speed * Time.deltaTime;
+        myRig.rotation = Quaternion.Euler(direc);
+        float rotate = Mathf.Atan2(direc.x, direc.z) * Mathf.Rad2Deg;
+        Quaternion quaternion = Quaternion.Euler(0, rotate, 0);
+        myRig.rotation = quaternion;
     }
 }

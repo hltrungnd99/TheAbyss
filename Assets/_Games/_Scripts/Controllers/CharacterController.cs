@@ -6,98 +6,68 @@ public class CharacterController : MonoBehaviour
     [SerializeField] protected Rigidbody myRig;
     [SerializeField] protected StatsCharacterBase statsCharacterBase;
     [SerializeField] protected Animator animatorCharacter;
-
-    protected Vector3 directionMove = Vector3.zero;
-    protected bool isCanMove;
+    [SerializeField] protected string myStatBase;
 
     private string currentStateAnim;
+    protected bool isCanMove;
 
     public StatCharacter statCharacter;
 
-    private StateMachine currentStateMachine;
 
     private void Start()
     {
-        statCharacter.Clone(statsCharacterBase.statCharacter);
+        // if set up data
+         statCharacter = new StatCharacter();
+         statCharacter.Clone(SetupTypeStat());
 
         SetupStart();
     }
 
     private void Update()
     {
-        if (currentStateMachine != null)
-        {
-            currentStateMachine.OnExcute();
-        }
+
         SetupUpdate();
     }
-
+    protected StatCharacter SetupTypeStat()
+    {
+        for (int i = 0; i < statsCharacterBase.statCharacter.Length; i++)
+        {
+            if (myStatBase.Contains(statsCharacterBase.statCharacter[i].characterStat))
+            {
+                return statsCharacterBase.statCharacter[i];
+            }
+        }
+        return null;
+    }
     protected virtual void SetupStart()
     {
-
+        ChangAnim(MyConstan.PLAYER_ANIM_IDLE);
     }
 
     protected virtual void SetupUpdate()
     {
 
     }
-
-    //private void Move()
-    //{
-    //    if (directionMove.magnitude < 0.05f)
-    //    {
-    //        if (currentStateAnim != "idle")
-    //        {
-    //            currentStateAnim = "idle";
-    //            animatorCharacter.SetTrigger("idle");
-    //        }
-    //        myRig.velocity = Vector3.zero;
-    //    }
-    //    else
-    //    {
-    //        myRig.velocity = directionMove * statCharacter.statCharacterOther.MSPD;
-
-    //        if (directionMove.magnitude < 0.6f)
-    //        {
-    //            if (currentStateAnim != "walk")
-    //            {
-    //                currentStateAnim = "walk";
-    //                animatorCharacter.SetTrigger("walk");
-    //            }
-    //        }
-    //        else
-    //        {
-    //            if (currentStateAnim != "run")
-    //            {
-    //                currentStateAnim = "run";
-    //                animatorCharacter.SetTrigger("run");
-    //            }
-    //        }
-    //    }
-
-    //}
-
-    //private void Rotate()
-    //{
-    //    if (directionMove.magnitude >= 0.05f)
-    //    {
-    //        var angle = Mathf.Atan2(directionMove.x, directionMove.z) * Mathf.Rad2Deg;
-    //        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, angle, 0), Time.deltaTime * 10);
-    //    }
-    //}
-
-    //private void Attack()
-    //{
-    //    animatorCharacter.SetTrigger("attack");
-    //}
-
-    protected void ChangeState(StateMachine stateMachine)
+    public virtual void Idle()
     {
-        if (currentStateMachine != stateMachine)
+        ChangAnim(MyConstan.PLAYER_ANIM_IDLE);
+    }
+
+    public virtual void Move()
+    {
+        ChangAnim(MyConstan.PLAYER_ANIM_RUN);
+    }
+    public virtual void Attack()
+    {
+
+    }
+    public void ChangAnim(string anim)
+    {
+        if (anim != currentStateAnim)
         {
-            if (currentStateMachine != null) currentStateMachine.OnExit();
-            currentStateMachine = stateMachine;
-            if (currentStateMachine != null) currentStateMachine.OnStart();
+            animatorCharacter.ResetTrigger(currentStateAnim);
+            currentStateAnim = anim;
+            animatorCharacter.SetTrigger(currentStateAnim);
         }
     }
 }

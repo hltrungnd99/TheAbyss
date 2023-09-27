@@ -1,15 +1,24 @@
 using System;
 
+
+
 [Serializable]
 public class StatCharacter
 {
     public StatCharacterATK statCharacterATK;
     public StatCharacterDMF statCharacterDMF;
     public StatCharacterOther statCharacterOther;
+    public string characterStat;
 
     public void Clone(StatCharacter statCharacter2)
     {
-        //this.statCharacterATK.Clone(statCharacterATK2)
+        statCharacterATK = new StatCharacterATK();
+        statCharacterDMF = new StatCharacterDMF();
+        statCharacterOther = new StatCharacterOther();
+
+        this.statCharacterATK.Clone(statCharacter2.statCharacterATK);
+        this.statCharacterDMF.Clone(statCharacter2.statCharacterDMF);
+        this.statCharacterOther.Clone(statCharacter2.statCharacterOther);
     }
 }
 

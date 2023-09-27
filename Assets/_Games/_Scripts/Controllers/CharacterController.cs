@@ -17,10 +17,19 @@ public class CharacterController : MonoBehaviour
     private StateMachine currentStateMachine;
     private string currentStateAnim;
     private float takeMoreDamage;
+    [SerializeField] protected string myStatBase;
+
+    private string currentStateAnim;
+    protected bool isCanMove;
+
+    public StatCharacter statCharacter;
+
 
     private void Start()
     {
-        statCharacter.Clone(statsCharacterBase.statCharacter);
+        // if set up data
+         statCharacter = new StatCharacter();
+         statCharacter.Clone(SetupTypeStat());
 
         SetupStart();
     }
@@ -39,9 +48,23 @@ public class CharacterController : MonoBehaviour
         SetupFixedUpdate();
     }
 
+
+        SetupUpdate();
+    }
+    protected StatCharacter SetupTypeStat()
+    {
+        for (int i = 0; i < statsCharacterBase.statCharacter.Length; i++)
+        {
+            if (myStatBase.Contains(statsCharacterBase.statCharacter[i].characterStat))
+            {
+                return statsCharacterBase.statCharacter[i];
+            }
+        }
+        return null;
+    }
     protected virtual void SetupStart()
     {
-
+        ChangAnim(MyConstan.PLAYER_ANIM_IDLE);
     }
 
     protected virtual void SetupUpdate()
@@ -217,11 +240,31 @@ public class CharacterController : MonoBehaviour
 
     protected void ChangeState(StateMachine stateMachine)
     {
-        if (currentStateMachine != stateMachine)
+        if (currentStateMachine != null) currentStateMachine.OnExit(this);
+        currentStateMachine = stateMachine;
+        if (currentStateMachine != null) currentStateMachine.OnStart(this);
+    }
+
+    public virtual void Idle()
+    {
+        ChangAnim(MyConstan.PLAYER_ANIM_IDLE);
+    }
+
+    public virtual void Move()
+    {
+        ChangAnim(MyConstan.PLAYER_ANIM_RUN);
+    }
+    public virtual void Attack()
+    {
+
+    }
+    public void ChangAnim(string anim)
+    {
+        if (anim != currentStateAnim)
         {
-            if (currentStateMachine != null) currentStateMachine.OnExit(this);
-            currentStateMachine = stateMachine;
-            if (currentStateMachine != null) currentStateMachine.OnStart(this);
+            animatorCharacter.ResetTrigger(currentStateAnim);
+            currentStateAnim = anim;
+            animatorCharacter.SetTrigger(currentStateAnim);
         }
     }
 }

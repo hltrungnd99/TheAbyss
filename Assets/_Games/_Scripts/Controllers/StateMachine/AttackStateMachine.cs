@@ -1,19 +1,14 @@
-public class AttackStateMachine : StateMachine
+public class AttackStateMachine : IStateMachine
 {
-    public override void OnExcute(EnemyController cha)
+    public void OnStart(EnemyController cha)
     {
-        throw new System.NotImplementedException();
     }
 
-    public override void OnExit(EnemyController cha)
+    public void OnExcute(EnemyController cha)
     {
-        throw new System.NotImplementedException();
     }
 
-    public override void OnStart(EnemyController cha)
+    public void OnExit(EnemyController cha)
     {
-        throw new System.NotImplementedException();
     }
-
-    
 }

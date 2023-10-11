@@ -1,19 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class MoveStateMachine : StateMachine
+public class MoveStateMachine : IStateMachine
 {
-    public override void OnExcute(EnemyController cha)
+    public void OnStart(EnemyController cha)
     {
+        
     }
 
-    public override void OnExit(EnemyController cha)
+    public void OnExcute(EnemyController cha)
     {
+        
     }
 
-    public override void OnStart(EnemyController cha)
+    public void OnExit(EnemyController cha)
     {
-
+        
     }
 }

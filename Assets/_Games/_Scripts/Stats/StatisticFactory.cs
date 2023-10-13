@@ -1,8 +1,7 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using JetBrains.Annotations;
 using UnityEngine;
+using UnityEditor;
+
 
 public class StatisticFactory : MonoBehaviour
 {
@@ -19,7 +18,7 @@ public class StatisticFactory : MonoBehaviour
             }
 
             health = value;
-            // HealthBar.HP = health;
+            // HealthBar.HP = health; 
         }
     }
 
@@ -52,16 +51,19 @@ public class StatisticFactory : MonoBehaviour
     }
 
     //[!] Interface function, xử lý sát thương nhận vào
-    public void HandlingDamageReceived(float damageReceived, Action onHandleComplete)
+    public float HandlingDamageReceived(float damageReceived, StatModifier criticalDamage = null, StatModifier extraDamage = null, StatModifier reduceDamage = null/* , Action onHandleComplete = null */)
     {
-        Healh -= CalculateFinalDamageReceived(damageReceived);
-        onHandleComplete?.Invoke();
+        //[x] Chưa có dead flag
+        // Healh -= CalculateFinalDamageReceived(damageReceived, criticalDamage, extraDamage, reduceDamage);
+
+        // onHandleComplete?.Invoke();
+        return CalculateFinalDamageReceived(damageReceived, criticalDamage, extraDamage, reduceDamage);
     }
 
     Stat output = new Stat();
     float finalReceivedDamaged;
     //[!] Tính toán lượng sát thương cuối cùng nhận vào
-    float CalculateFinalDamageReceived(float damageReceived, StatModifier criticalDamage = null, StatModifier extraDamage = null, StatModifier reduceDamage = null)
+    float CalculateFinalDamageReceived(float damageReceived, StatModifier criticalDamage, StatModifier extraDamage, StatModifier reduceDamage) //[x] Pack lại tất cả modifier
     {
         finalReceivedDamaged = CalculateBaseDamageReceived(damageReceived: damageReceived);
 
@@ -96,4 +98,3 @@ public static class StatisticFactoryExtension
         return (reduceDamage == null) ? stat : stat.AddModifier(reduceDamage);
     }
 }
-

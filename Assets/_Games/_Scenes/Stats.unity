@@ -226,8 +226,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 305510067}
+  - component: {fileID: 305510068}
   m_Layer: 0
-  m_Name: Stats Factory - (Character demo)
+  m_Name: Ally
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -240,6 +241,147 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 305510066}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1423698048}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &305510068
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 305510066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a89787055ec245e41b7f2ddef7e09c7d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 0
+  Damage:
+    BaseValue: 10
+    value: 10
+    statModifiers: []
+  Range:
+    BaseValue: 0
+    value: 0
+    statModifiers: []
+  CriticalRate:
+    BaseValue: 0
+    value: 0
+    statModifiers: []
+  CriticalDamage:
+    BaseValue: 0
+    value: 0
+    statModifiers: []
+  AttackSpeed:
+    BaseValue: 0
+    value: 0
+    statModifiers: []
+  Penetrate:
+    BaseValue: 0
+    value: 0
+    statModifiers: []
+  Accurate:
+    BaseValue: 0
+    value: 0
+    statModifiers: []
+  MaxHealth:
+    BaseValue: 0
+    value: 0
+    statModifiers: []
+  Recovery:
+    BaseValue: 0
+    value: 0
+    statModifiers: []
+  Defense:
+    BaseValue: 0
+    value: 0
+    statModifiers: []
+  Evasion:
+    BaseValue: 0
+    value: 0
+    statModifiers: []
+  DamageReduction:
+    BaseValue: 0
+    value: 0
+    statModifiers: []
+  Block:
+    BaseValue: 0
+    value: 0
+    statModifiers: []
+  MovementSpeed:
+    BaseValue: 0
+    value: 0
+    statModifiers: []
+  Vampire:
+    BaseValue: 0
+    value: 0
+    statModifiers: []
+--- !u!1 &777702550
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 777702553}
+  - component: {fileID: 777702552}
+  - component: {fileID: 777702551}
+  m_Layer: 0
+  m_Name: EventSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &777702551
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 777702550}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SendPointerHoverToParent: 1
+  m_HorizontalAxis: Horizontal
+  m_VerticalAxis: Vertical
+  m_SubmitButton: Submit
+  m_CancelButton: Cancel
+  m_InputActionsPerSecond: 10
+  m_RepeatDelay: 0.5
+  m_ForceModuleActive: 0
+--- !u!114 &777702552
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 777702550}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_FirstSelected: {fileID: 0}
+  m_sendNavigationEvents: 1
+  m_DragThreshold: 10
+--- !u!4 &777702553
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 777702550}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -247,6 +389,160 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1253647047
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1253647049}
+  - component: {fileID: 1253647048}
+  m_Layer: 0
+  m_Name: Enemy
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1253647048
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1253647047}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a89787055ec245e41b7f2ddef7e09c7d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 0
+  Damage:
+    BaseValue: 0
+    value: 0
+    statModifiers: []
+  Range:
+    BaseValue: 0
+    value: 0
+    statModifiers: []
+  CriticalRate:
+    BaseValue: 0
+    value: 0
+    statModifiers: []
+  CriticalDamage:
+    BaseValue: 0
+    value: 0
+    statModifiers: []
+  AttackSpeed:
+    BaseValue: 0
+    value: 0
+    statModifiers: []
+  Penetrate:
+    BaseValue: 0
+    value: 0
+    statModifiers: []
+  Accurate:
+    BaseValue: 0
+    value: 0
+    statModifiers: []
+  MaxHealth:
+    BaseValue: 0
+    value: 0
+    statModifiers: []
+  Recovery:
+    BaseValue: 0
+    value: 0
+    statModifiers: []
+  Defense:
+    BaseValue: 0
+    value: 0
+    statModifiers: []
+  Evasion:
+    BaseValue: 0
+    value: 0
+    statModifiers: []
+  DamageReduction:
+    BaseValue: 0
+    value: 0
+    statModifiers: []
+  Block:
+    BaseValue: 0
+    value: 0
+    statModifiers: []
+  MovementSpeed:
+    BaseValue: 0
+    value: 0
+    statModifiers: []
+  Vampire:
+    BaseValue: 0
+    value: 0
+    statModifiers: []
+--- !u!4 &1253647049
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1253647047}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1423698048}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1423698046
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1423698048}
+  - component: {fileID: 1423698047}
+  m_Layer: 0
+  m_Name: Battle Simulator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1423698047
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1423698046}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 538a1c223ed16024ba5eaedec10aa58a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Attacker: {fileID: 305510068}
+  Defender: {fileID: 1253647048}
+  Output: 2
+--- !u!4 &1423698048
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1423698046}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 305510067}
+  - {fileID: 1253647049}
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2028438937
 GameObject:

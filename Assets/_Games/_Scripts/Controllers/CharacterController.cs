@@ -1,12 +1,16 @@
 using Unity.VisualScripting;
 using UnityEngine;
+using System;
+using System.Collections.Generic;
 
 public class CharacterController : MonoBehaviour
 {
+    [SerializeField] protected string myStatBase;
     [SerializeField] protected Rigidbody myRig;
     [SerializeField] protected StatsCharacterBase statsCharacterBase;
     [SerializeField] protected Animator animatorCharacter;
-    [SerializeField] protected string myStatBase;
+    [SerializeField] protected List<CharacterController> myTarget = new List<CharacterController>();
+
 
     private string currentStateAnim;
     protected bool isCanMove;
@@ -17,8 +21,8 @@ public class CharacterController : MonoBehaviour
     private void Start()
     {
         // if set up data
-         statCharacter = new StatCharacter();
-         statCharacter.Clone(SetupTypeStat());
+        //statCharacter = new StatCharacter();
+        //statCharacter.Clone(SetupTypeStat());
 
         SetupStart();
     }

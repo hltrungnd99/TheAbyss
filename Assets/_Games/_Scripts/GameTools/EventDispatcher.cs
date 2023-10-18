@@ -4,9 +4,11 @@ using UnityEngine;
 
 public static class EventDispatcher
 {
-    public static Dictionary<EventName, List<Action<Component, object[]>>> _eventDictionary = new Dictionary<EventName, List<Action<Component, object[]>>>();
+    public static Dictionary<EventName, List<Action<Component, object[]>>> _eventDictionary =
+        new Dictionary<EventName, List<Action<Component, object[]>>>();
 
-    public static void RegisterEventListener(this MonoBehaviour monoBehaviour, EventName eventName, Action<Component, object[]> listener)
+    public static void RegisterEventListener(this MonoBehaviour monoBehaviour, EventName eventName,
+        Action<Component, object[]> listener)
     {
         if (_eventDictionary.TryGetValue(eventName, out List<Action<Component, object[]>> lstEvent))
         {
@@ -20,7 +22,8 @@ public static class EventDispatcher
         }
     }
 
-    public static void RemoveEventListener(this MonoBehaviour monoBehaviour, EventName eventName, Action<Component, object[]> listener)
+    public static void RemoveEventListener(this MonoBehaviour monoBehaviour, EventName eventName,
+        Action<Component, object[]> listener)
     {
         if (_eventDictionary.TryGetValue(eventName, out List<Action<Component, object[]>> lstEvent))
         {
@@ -28,6 +31,7 @@ public static class EventDispatcher
             {
                 lstEvent.Remove(listener);
             }
+
             _eventDictionary[eventName] = lstEvent;
         }
     }
@@ -47,5 +51,9 @@ public static class EventDispatcher
 public enum EventName
 {
     ATTACK,
-    TAKE_DAMAGE
+    TAKE_DAMAGE,
+    CALLBACK_ANIM_1,
+    CALLBACK_ANIM_2,
+    CALLBACK_ANIM_3,
+    CALLBACK_ANIM_4,
 }

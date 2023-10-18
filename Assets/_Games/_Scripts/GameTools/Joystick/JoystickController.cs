@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class JoystickController : MonoBehaviour
@@ -22,6 +20,9 @@ public class JoystickController : MonoBehaviour
     protected Vector3 startPos;
     protected Vector3 updatePos;
 
+    private bool isMoving;
+    public bool IsMoving => isMoving;
+
     protected void Start()
     {
         screen.x = Screen.width;
@@ -37,6 +38,7 @@ public class JoystickController : MonoBehaviour
             joystickPanel.gameObject.SetActive(true);
             startPos = mousePos;
             joystickBG.anchoredPosition = startPos;
+            isMoving = true;
         }
 
         if (Input.GetMouseButton(0))
@@ -52,6 +54,7 @@ public class JoystickController : MonoBehaviour
         {
             direction = Vector3.zero;
             joystickPanel.gameObject.SetActive(false);
+            isMoving = false;
         }
     }
 

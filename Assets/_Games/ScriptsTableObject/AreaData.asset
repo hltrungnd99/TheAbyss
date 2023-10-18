@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53cea3c0e5aa3dc40a95a1a02cd15f9c, type: 3}
+  m_Name: AreaData
+  m_EditorClassIdentifier: 
+  areaElement:
+  - count: 2
+    areaID: 0
+    listEnemy:
+    - {fileID: 1664361761664440104, guid: 4c5d4735db8b1f94fb0a42a8aed5ee42, type: 3}
+  - count: 3
+    areaID: 1
+    listEnemy:
+    - {fileID: 1664361761664440104, guid: 4c5d4735db8b1f94fb0a42a8aed5ee42, type: 3}
+  - count: 4
+    areaID: 2
+    listEnemy:
+    - {fileID: 1664361761664440104, guid: 4c5d4735db8b1f94fb0a42a8aed5ee42, type: 3}
+  - count: 5
+    areaID: 3
+    listEnemy:
+    - {fileID: 1664361761664440104, guid: 4c5d4735db8b1f94fb0a42a8aed5ee42, type: 3}
+  - count: 6
+    areaID: 4
+    listEnemy:
+    - {fileID: 1664361761664440104, guid: 4c5d4735db8b1f94fb0a42a8aed5ee42, type: 3}

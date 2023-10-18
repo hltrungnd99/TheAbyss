@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using _Games._Scripts;
 using _Games._Scripts.Controllers.Ability;
 using UnityEngine;
+using System;
+using System.Collections.Generic;
 
 public class CharacterController : MonoBehaviour
 {
+    [SerializeField] protected string myStatBase;
     [SerializeField] protected Rigidbody myRig;
     [SerializeField] protected Animator animatorCharacter;
+<<<<<<< HEAD
     [SerializeField] protected NormalAttack normalAttack;
     [SerializeField] private float damage;
     [SerializeField] private float hp;
@@ -20,11 +24,22 @@ public class CharacterController : MonoBehaviour
 
     protected bool isCanMove;
     protected ECharacterState eCharacterState;
+=======
+    [SerializeField] protected List<CharacterController> myTarget = new List<CharacterController>();
+
+>>>>>>> origin/feature/quynhtv
 
     private string currentStateAnim;
 
     private void Start()
     {
+<<<<<<< HEAD
+=======
+        // if set up data
+        //statCharacter = new StatCharacter();
+        //statCharacter.Clone(SetupTypeStat());
+
+>>>>>>> origin/feature/quynhtv
         SetupStart();
     }
 

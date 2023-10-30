@@ -5,89 +5,70 @@ namespace _Games._Scripts
 {
     public class CallbackAnim : MonoBehaviour
     {
-        [SerializeField] private UnityEvent action1;
-        [SerializeField] private UnityEvent action2;
-        [SerializeField] private UnityEvent action3;
-        [SerializeField] private UnityEvent action4;
+        public UnityEvent[] actions = new UnityEvent[5];
 
-        public void AddCallback1(UnityAction callback)
+        public void AddCallback(int index, UnityAction callback)
         {
-            action1.AddListener(callback);
+            if (index >= 0 && index < actions.Length)
+            {
+                actions[index].AddListener(callback);
+            }
         }
 
-        public void RemoveCallback1(UnityAction callback)
+        public void AddCallbackEndAnim(UnityAction callback)
         {
-            action1.RemoveListener(callback);
+            if (actions.Length > 0)
+            {
+                actions[actions.Length - 1].AddListener(callback);
+            }
         }
 
-        public void RemoveAllCallback1()
+        public void RemoveCallback(int index, UnityAction callback)
         {
-            action1.RemoveAllListeners();
+            if (index >= 0 && index < actions.Length)
+            {
+                actions[index].RemoveListener(callback);
+            }
         }
 
-        public void Callback1()
+        public void RemoveAllCallback(int index)
         {
-            action1?.Invoke();
+            if (index >= 0 && index < actions.Length)
+            {
+                actions[index].RemoveAllListeners();
+            }
         }
 
-        public void AddCallback2(UnityAction callback)
+        public void RemoveAllCallbackEndAnim()
         {
-            action2.AddListener(callback);
+            if (actions.Length > 0)
+            {
+                actions[actions.Length - 1].RemoveAllListeners();
+            }
         }
 
-        public void RemoveCallback2(UnityAction callback)
+        public void Callback(int index)
         {
-            action2.RemoveListener(callback);
+            if (index >= 0 && index < actions.Length)
+            {
+                actions[index]?.Invoke();
+            }
         }
 
-        public void RemoveAllCallback2()
+        public void CallbackEndAnim()
         {
-            action2.RemoveAllListeners();
+            if (actions.Length > 0)
+            {
+                actions[actions.Length - 1]?.Invoke();
+            }
         }
 
-        public void Callback2()
+        public void RemoveAllCallback()
         {
-            action2?.Invoke();
-        }
-
-        public void AddCallback3(UnityAction callback)
-        {
-            action3.AddListener(callback);
-        }
-
-        public void RemoveCallback3(UnityAction callback)
-        {
-            action3.RemoveListener(callback);
-        }
-
-        public void RemoveAllCallback3()
-        {
-            action3.RemoveAllListeners();
-        }
-
-        public void Callback3()
-        {
-            action3?.Invoke();
-        }
-
-        public void AddCallback4(UnityAction callback)
-        {
-            action4.AddListener(callback);
-        }
-
-        public void RemoveCallback4(UnityAction callback)
-        {
-            action4.RemoveListener(callback);
-        }
-
-        public void RemoveAllCallback4()
-        {
-            action4.RemoveAllListeners();
-        }
-
-        public void Callback4()
-        {
-            action4?.Invoke();
+            for (int i = 0; i < actions.Length; i++)
+            {
+                actions[i].RemoveAllListeners();
+            }
         }
     }
 }

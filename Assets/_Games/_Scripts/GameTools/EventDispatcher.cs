@@ -17,6 +17,7 @@ public static class EventDispatcher
         }
         else
         {
+            lstEvent = new List<Action<Component, object[]>>();
             lstEvent.Add(listener);
             _eventDictionary.Add(eventName, lstEvent);
         }
@@ -52,8 +53,7 @@ public enum EventName
 {
     ATTACK,
     TAKE_DAMAGE,
-    CALLBACK_ANIM_1,
-    CALLBACK_ANIM_2,
-    CALLBACK_ANIM_3,
-    CALLBACK_ANIM_4,
+    START_ATK,
+    END_ATK,
+    END_ANIM,
 }

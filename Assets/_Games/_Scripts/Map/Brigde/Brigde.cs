@@ -13,9 +13,10 @@ public class Brigde : MonoBehaviour
         baseMap = FindObjectOfType<BaseMap>();
         brideID = baseMap.currentArea.areaID;
     }
+
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag(MyConstan.PLAYER_TAG))
+        if (other.CompareTag(ConstTags.PLAYER_TAG))
         {
             if (baseMap.currentArea.canMoveArea && brideID == baseMap.currentArea.areaID)
             {

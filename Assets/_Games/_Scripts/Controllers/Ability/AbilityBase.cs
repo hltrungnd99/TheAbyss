@@ -16,7 +16,7 @@ namespace _Games._Scripts.Controllers.Ability
         {
         }
 
-        public virtual void Hitted<T1, T2>(T1 damager, List<T2> characterHitted = null)
+        public virtual void OnHitted<T1, T2>(T1 damager, List<T2> characterHitted = null)
             where T1 : CharacterController
             where T2 : CharacterController
         {

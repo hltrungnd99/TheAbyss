@@ -1,45 +1,54 @@
-using System;
 using System.Collections.Generic;
-using _Games._Scripts;
-using _Games._Scripts.Controllers.Ability;
 using UnityEngine;
-using System;
-using System.Collections.Generic;
 
 public class CharacterController : MonoBehaviour
 {
-    [SerializeField] protected string myStatBase;
+    #region Weapon and attack
+
+    public List<WeaponAsset> listWeaponInit;
+
+    public IAttack iAttack;
+
+    public List<CharacterController> listCharInRange = new();
+
+    #endregion
+
+    #region Component
+
     [SerializeField] protected Rigidbody myRig;
-    [SerializeField] protected Animator animatorCharacter;
-<<<<<<< HEAD
-    [SerializeField] protected NormalAttack normalAttack;
+
+    #endregion
+
     [SerializeField] private float damage;
     [SerializeField] private float hp;
-    [SerializeField] private Collider[] colAtks;
+    public bool IsAlive => hp > 0 && eCharacterState != ECharacterState.DIE;
 
-    [SerializeField] public CallbackAnim callbackAnim;
+    public CharacterModel characterModel;
+
+    public Vector3 DirectionMove => directionMove;
+    public ECharacterState eCharacterState;
+    public IStateMachine currentStateMachine;
 
     protected Vector3 directionMove = Vector3.zero;
-    public Vector3 DirectionMove => directionMove;
-
-    protected bool isCanMove;
-    protected ECharacterState eCharacterState;
-=======
-    [SerializeField] protected List<CharacterController> myTarget = new List<CharacterController>();
-
->>>>>>> origin/feature/quynhtv
+    protected float minDisCharToTarget;
 
     private string currentStateAnim;
 
+    public Collider colRecieveDamage;
+
+    public CharacterController charTarget;
+    public Transform transCharTarget;
+
+    #region Range attack
+
+    private CharacterController charInRange;
+
+    public int countTargetCanAtk;
+
+    #endregion
+
     private void Start()
     {
-<<<<<<< HEAD
-=======
-        // if set up data
-        //statCharacter = new StatCharacter();
-        //statCharacter.Clone(SetupTypeStat());
-
->>>>>>> origin/feature/quynhtv
         SetupStart();
     }
 
@@ -53,21 +62,45 @@ public class CharacterController : MonoBehaviour
         SetupFixedUpdate();
     }
 
-    private void OnDestroy()
-    {
-    }
-
-    protected virtual void SetupOnDestroy()
-    {
-    }
-
     protected virtual void SetupStart()
     {
-        ChangeAnim(ConstAnimParams.PLAYER_ANIM_IDLE);
+        ChangeStateMachine(new IdleStateMachine());
+        characterModel.OnInit(this);
     }
 
     protected virtual void SetupUpdate()
     {
+        currentStateMachine?.OnExcute(this);
+        SetCharTarget();
+
+        if (charTarget)
+        {
+            transCharTarget = charTarget.transform;
+            charTarget.ActiveTarget(true);
+        }
+    }
+
+    protected virtual void SetCharTarget()
+    {
+        minDisCharToTarget = 99999f;
+        if (listCharInRange.Count > 0 && eCharacterState != ECharacterState.ATTACK)
+        {
+            for (int i = 0; i < listCharInRange.Count; i++)
+            {
+                listCharInRange[i].ActiveTarget(false);
+                var disntace = Vector3.Distance(transform.position, listCharInRange[i].transform.position);
+                if (disntace < minDisCharToTarget)
+                {
+                    minDisCharToTarget = disntace;
+                    charTarget = listCharInRange[i];
+                }
+            }
+        }
+        else if (listCharInRange.Count <= 0)
+        {
+            transCharTarget = null;
+            charTarget = null;
+        }
     }
 
     protected virtual void SetupFixedUpdate()
@@ -83,31 +116,99 @@ public class CharacterController : MonoBehaviour
     {
     }
 
-    protected virtual void Move()
+    public virtual void OnHitted(CharacterController characterController)
     {
-        ChangeAnim(ConstAnimParams.PLAYER_ANIM_RUN);
-        eCharacterState = ECharacterState.MOVE;
+        // normalAttack.OnHitted(this, new List<CharacterController>() { characterController });
     }
 
-    protected virtual void Idle()
+    #region state machine
+
+    #region idle state
+
+    public virtual void ExcuteIdle()
     {
-        ChangeAnim(ConstAnimParams.PLAYER_ANIM_IDLE);
-        eCharacterState = ECharacterState.IDLE;
+        if (IsCanNormalAttack())
+        {
+            ChangeStateMachine(
+                new AttackStateMachine(characterModel.weaponInChar.currentWeaponR));
+        }
+        else if (IsCanChaseTarget())
+        {
+            ChangeStateMachine(new ChaseStateMachine());
+        }
     }
 
-    protected virtual void Attack<T1, T2>(T1 characterController, List<T2> lstEnemy = null)
-        where T1 : CharacterController where T2 : CharacterController
+    #endregion
+
+    #region move state
+
+    public virtual void StartMove()
     {
-        eCharacterState = ECharacterState.ATTACK;
-        normalAttack.Attack(characterController, lstEnemy);
     }
+
+    public virtual void ExcuteMove()
+    {
+    }
+
+    #endregion
+
+    #region chase state
+
+    public virtual void StartChase()
+    {
+    }
+
+    public virtual void ExcuteChase()
+    {
+    }
+
+    public virtual void ExitChase()
+    {
+    }
+
+    #endregion
+
+    #region attack state
+
+    public virtual void StartAttack()
+    {
+    }
+
+    #endregion
+
+    #endregion
 
     public virtual void WarningAttack(Collider other)
     {
+        charInRange = other.GetComponentInParent<CharacterController>();
+        if (charInRange && !listCharInRange.Contains(charInRange))
+        {
+            listCharInRange.Add(charInRange);
+        }
     }
 
     public virtual void CancelWarningAttack(Collider other)
     {
+        if ((other.CompareTag(ConstTags.PLAYER_TAG) || other.CompareTag(ConstTags.ENEMY_TAG)) &&
+            !other.CompareTag(gameObject.tag))
+        {
+            charInRange = other.GetComponentInParent<CharacterController>();
+            if (charInRange && listCharInRange.Contains(charInRange))
+            {
+                charInRange.ActiveTarget(false);
+                listCharInRange.Remove(charInRange);
+            }
+        }
+    }
+
+    public virtual bool IsCanChaseTarget()
+    {
+        return charTarget && charTarget.IsAlive;
+    }
+
+    public virtual bool IsCanNormalAttack()
+    {
+        return charTarget && charTarget.IsAlive && countTargetCanAtk > 0;
     }
 
     public virtual void Damage<T>(T characterHitted) where T : CharacterController
@@ -128,26 +229,38 @@ public class CharacterController : MonoBehaviour
     public virtual void Dead()
     {
         ChangeAnim(ConstAnimParams.PLAYER_ANIM_DIE);
+        colRecieveDamage.enabled = false;
+        eCharacterState = ECharacterState.DIE;
     }
 
-    public void ActiveColAtk(Component arg1, object[] arg2)
+    public virtual void ActiveTarget(bool isActive)
     {
-        if (colAtks != null)
-        {
-            for (int i = 0; i < colAtks.Length; i++)
-            {
-                colAtks[i].enabled = true;
-            }
-        }
     }
 
     public void ChangeAnim(string anim)
     {
         if (anim != currentStateAnim)
         {
-            animatorCharacter.ResetTrigger(currentStateAnim);
+            if (!string.IsNullOrEmpty(currentStateAnim))
+            {
+                characterModel.animatorCharacter.ResetTrigger(currentStateAnim);
+            }
+
             currentStateAnim = anim;
-            animatorCharacter.SetTrigger(currentStateAnim);
+            if (!string.IsNullOrEmpty(currentStateAnim))
+            {
+                characterModel.animatorCharacter.SetTrigger(currentStateAnim);
+            }
+        }
+    }
+
+    public void ChangeStateMachine(IStateMachine nextState)
+    {
+        if (currentStateMachine != nextState)
+        {
+            currentStateMachine?.OnExit(this);
+            currentStateMachine = nextState;
+            currentStateMachine?.OnStart(this);
         }
     }
 }

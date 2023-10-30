@@ -24,5 +24,6 @@ public enum ECharacterState
     IDLE,
     MOVE,
     ATTACK,
-    DIE
+    DIE,
+    CHASE,
 }

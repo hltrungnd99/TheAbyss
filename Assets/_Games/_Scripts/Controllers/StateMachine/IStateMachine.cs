@@ -1,6 +1,6 @@
 public interface IStateMachine
 {
-    public void OnStart(EnemyController cha);
-    public void OnExcute(EnemyController cha);
-    public void OnExit(EnemyController cha);
+    public void OnStart(CharacterController cha);
+    public void OnExcute(CharacterController cha);
+    public void OnExit(CharacterController cha);
 }

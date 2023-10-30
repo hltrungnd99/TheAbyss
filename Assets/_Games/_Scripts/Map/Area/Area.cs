@@ -63,7 +63,7 @@ public class Area : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag(MyConstan.PLAYER_TAG))
+        if (other.CompareTag(ConstTags.PLAYER_TAG))
         {
             Debug.LogError("chec");
             changArea?.Invoke(this);

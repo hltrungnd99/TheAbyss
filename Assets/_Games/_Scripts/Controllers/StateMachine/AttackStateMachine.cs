@@ -26,7 +26,7 @@ public class AttackStateMachine : IStateMachine
         rotation.x = 0;
         rotation.z = 0;
         cha.transform.rotation = Quaternion.Euler(rotation);
-        
+        cha.StartAttack();
     }
 
     public void OnExcute(CharacterController cha)

@@ -16,7 +16,7 @@ public class SwordAsset : WeaponAsset
             return;
         }
 
-        myChar.transform.LookAt(myChar.listCharInRange[0].transform);
+        myChar.transform.LookAt(myChar.transCharTarget);
         myChar.ChangeAnim(paramAnim);
     }
 

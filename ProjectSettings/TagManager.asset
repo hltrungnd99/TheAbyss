@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Enemy
   - Weapon
+  - player
   layers:
   - Default
   - TransparentFX
@@ -18,7 +19,7 @@ TagManager:
   - EnemyWeapon
   - Enemy
   - PlayerBound
-  - PlayerRangeAttack
+  - RangeAttack
   - ReceiveAtk
   - 
   - 

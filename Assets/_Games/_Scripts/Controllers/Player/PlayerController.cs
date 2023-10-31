@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace _Games._Scripts.Controllers.Player
@@ -10,11 +11,23 @@ namespace _Games._Scripts.Controllers.Player
         [SerializeField] protected JoystickController joystickController;
         [SerializeField] protected float speed;
 
+        private CharacterController enemyDead;
+
         public bool IsMoving => joystickController.IsMoving;
 
-        private void Awake()
+        protected override void SetupAwake()
         {
+            base.SetupAwake();
+
             joystickController = Instantiate(joystickPrefab, joystickTf).GetComponent<JoystickController>();
+            this.RegisterEventListener(EventName.ENEMY_DEAD, EventDead);
+        }
+
+        protected override void SetupDestroy()
+        {
+            base.SetupDestroy();
+
+            this.RemoveEventListener(EventName.ENEMY_DEAD, EventDead);
         }
 
         protected override void SetupUpdate()
@@ -30,6 +43,30 @@ namespace _Games._Scripts.Controllers.Player
             {
                 ChangeStateMachine(new IdleStateMachine());
             }
+        }
+
+        protected override void EventDead(Component arg1, object[] arg2)
+        {
+            base.EventDead(arg1, arg2);
+
+            if (arg2.Length > 0)
+            {
+                enemyDead = (CharacterController)arg2[0];
+                if (enemyDead)
+                {
+                    if (enemyDead && enemyDead.CompareTag(ConstTags.ENEMY_TAG))
+                    {
+                        CancelWarningAttack(enemyDead);
+                    }
+                }
+            }
+        }
+
+        protected override void Dead()
+        {
+            base.Dead();
+
+            this.PostEvent(EventName.PLAYER_DEAD, new object[] { this });
         }
 
         public override void ExcuteMove()

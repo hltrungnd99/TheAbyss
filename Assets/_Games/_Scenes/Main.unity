@@ -327,7 +327,6 @@ MonoBehaviour:
   listWeaponInit:
   - {fileID: 11400000, guid: db340930572d5af40ada014995ffbfec, type: 2}
   - {fileID: 11400000, guid: 176f3afff419d8a4a86bff8645e94a11, type: 2}
-  listCharInRange: []
   myRig: {fileID: 44874650}
   damage: 5
   hp: 100
@@ -1206,7 +1205,6 @@ MonoBehaviour:
   listWeaponInit:
   - {fileID: 11400000, guid: db340930572d5af40ada014995ffbfec, type: 2}
   - {fileID: 11400000, guid: 176f3afff419d8a4a86bff8645e94a11, type: 2}
-  listCharInRange: []
   myRig: {fileID: 352046262}
   damage: 5
   hp: 100
@@ -1333,9 +1331,8 @@ MonoBehaviour:
   listWeaponInit:
   - {fileID: 11400000, guid: 176f3afff419d8a4a86bff8645e94a11, type: 2}
   - {fileID: 11400000, guid: 5f4c6fc2381a91c41865add46c976746, type: 2}
-  listCharInRange: []
   myRig: {fileID: 388719258}
-  damage: 10
+  damage: 50
   hp: 500000
   characterModel: {fileID: 326576049}
   eCharacterState: 0
@@ -1937,7 +1934,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4183c5a459823d438706e3c91567d89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterController: {fileID: 352046265}
+  characterController: {fileID: 388719256}
 --- !u!135 &550862296
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -2414,7 +2411,6 @@ MonoBehaviour:
   listWeaponInit:
   - {fileID: 11400000, guid: db340930572d5af40ada014995ffbfec, type: 2}
   - {fileID: 11400000, guid: 176f3afff419d8a4a86bff8645e94a11, type: 2}
-  listCharInRange: []
   myRig: {fileID: 819359600}
   damage: 5
   hp: 100
@@ -2613,7 +2609,6 @@ MonoBehaviour:
   listWeaponInit:
   - {fileID: 11400000, guid: db340930572d5af40ada014995ffbfec, type: 2}
   - {fileID: 11400000, guid: 176f3afff419d8a4a86bff8645e94a11, type: 2}
-  listCharInRange: []
   myRig: {fileID: 867061148}
   damage: 5
   hp: 100
@@ -2909,7 +2904,6 @@ MonoBehaviour:
   listWeaponInit:
   - {fileID: 11400000, guid: db340930572d5af40ada014995ffbfec, type: 2}
   - {fileID: 11400000, guid: 176f3afff419d8a4a86bff8645e94a11, type: 2}
-  listCharInRange: []
   myRig: {fileID: 984283503}
   damage: 5
   hp: 100
@@ -4316,7 +4310,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1564088820
 Transform:
   m_ObjectHideFlags: 0
@@ -4994,7 +4988,6 @@ MonoBehaviour:
   listWeaponInit:
   - {fileID: 11400000, guid: db340930572d5af40ada014995ffbfec, type: 2}
   - {fileID: 11400000, guid: 176f3afff419d8a4a86bff8645e94a11, type: 2}
-  listCharInRange: []
   myRig: {fileID: 1783982598}
   damage: 5
   hp: 100

@@ -49,7 +49,7 @@ public class Sword : Weapon
         if (countHit < numHit && myChar.charTarget &&
             myChar.charTarget.colRecieveDamage.GetInstanceID() == obj.GetInstanceID())
         {
-            Debug.LogError(myChar.gameObject.name + " damaged " + myChar.charTarget.gameObject.name);
+            // Debug.LogError(myChar.gameObject.name + " damaged " + myChar.charTarget.gameObject.name);
             countHit++;
             myChar.Damage(myChar.charTarget);
         }

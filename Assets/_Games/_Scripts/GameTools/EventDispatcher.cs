@@ -56,4 +56,6 @@ public enum EventName
     START_ATK,
     END_ATK,
     END_ANIM,
+    PLAYER_DEAD,
+    ENEMY_DEAD,
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,10 +7,9 @@ public class CharacterController : MonoBehaviour
     #region Weapon and attack
 
     public List<WeaponAsset> listWeaponInit;
-
     public IAttack iAttack;
 
-    public List<CharacterController> listCharInRange = new();
+    private List<CharacterController> listCharInRange = new();
 
     #endregion
 
@@ -24,10 +24,11 @@ public class CharacterController : MonoBehaviour
     public bool IsAlive => hp > 0 && eCharacterState != ECharacterState.DIE;
 
     public CharacterModel characterModel;
+    public ECharacterState eCharacterState;
 
     public Vector3 DirectionMove => directionMove;
-    public ECharacterState eCharacterState;
-    public IStateMachine currentStateMachine;
+
+    private IStateMachine currentStateMachine;
 
     protected Vector3 directionMove = Vector3.zero;
     protected float minDisCharToTarget;
@@ -47,6 +48,11 @@ public class CharacterController : MonoBehaviour
 
     #endregion
 
+    private void Awake()
+    {
+        SetupAwake();
+    }
+
     private void Start()
     {
         SetupStart();
@@ -57,9 +63,17 @@ public class CharacterController : MonoBehaviour
         SetupUpdate();
     }
 
-    private void FixedUpdate()
+    private void OnDestroy()
     {
-        SetupFixedUpdate();
+        SetupDestroy();
+    }
+
+    protected virtual void SetupAwake()
+    {
+    }
+
+    protected virtual void SetupDestroy()
+    {
     }
 
     protected virtual void SetupStart()
@@ -101,24 +115,6 @@ public class CharacterController : MonoBehaviour
             transCharTarget = null;
             charTarget = null;
         }
-    }
-
-    protected virtual void SetupFixedUpdate()
-    {
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        SetupTrigger(other);
-    }
-
-    protected virtual void SetupTrigger(Collider other)
-    {
-    }
-
-    public virtual void OnHitted(CharacterController characterController)
-    {
-        // normalAttack.OnHitted(this, new List<CharacterController>() { characterController });
     }
 
     #region state machine
@@ -201,12 +197,21 @@ public class CharacterController : MonoBehaviour
         }
     }
 
+    protected virtual void CancelWarningAttack(CharacterController charDead)
+    {
+        if (charDead && listCharInRange.Contains(charDead))
+        {
+            charDead.ActiveTarget(false);
+            listCharInRange.Remove(charDead);
+        }
+    }
+
     public virtual bool IsCanChaseTarget()
     {
         return charTarget && charTarget.IsAlive;
     }
 
-    public virtual bool IsCanNormalAttack()
+    protected virtual bool IsCanNormalAttack()
     {
         return charTarget && charTarget.IsAlive && countTargetCanAtk > 0;
     }
@@ -216,21 +221,24 @@ public class CharacterController : MonoBehaviour
         characterHitted.GetDamage(damage);
     }
 
-    public virtual void GetDamage(float dam)
+    protected virtual void GetDamage(float dam)
     {
         hp -= dam;
         if (hp <= 0)
         {
-            Debug.LogError("die: " + gameObject.name);
             Dead();
         }
     }
 
-    public virtual void Dead()
+    protected virtual void Dead()
     {
         ChangeAnim(ConstAnimParams.PLAYER_ANIM_DIE);
         colRecieveDamage.enabled = false;
         eCharacterState = ECharacterState.DIE;
+    }
+
+    protected virtual void EventDead(Component arg1, object[] arg2)
+    {
     }
 
     public virtual void ActiveTarget(bool isActive)

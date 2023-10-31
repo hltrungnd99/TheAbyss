@@ -23,30 +23,6 @@ namespace _Games._Scripts
             }
         }
 
-        public void RemoveCallback(int index, UnityAction callback)
-        {
-            if (index >= 0 && index < actions.Length)
-            {
-                actions[index].RemoveListener(callback);
-            }
-        }
-
-        public void RemoveAllCallback(int index)
-        {
-            if (index >= 0 && index < actions.Length)
-            {
-                actions[index].RemoveAllListeners();
-            }
-        }
-
-        public void RemoveAllCallbackEndAnim()
-        {
-            if (actions.Length > 0)
-            {
-                actions[actions.Length - 1].RemoveAllListeners();
-            }
-        }
-
         public void Callback(int index)
         {
             if (index >= 0 && index < actions.Length)

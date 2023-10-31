@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using _Games._Scripts.Controllers.Player;
@@ -11,7 +12,21 @@ public class EnemyController : CharacterController
 
     private List<PlayerController> listPlayerInZone = new List<PlayerController>();
     private Vector3 originPos;
-    private bool isInFirstPos;
+    private bool isInFirstPos = true;
+
+    protected override void SetupAwake()
+    {
+        base.SetupAwake();
+
+        this.RegisterEventListener(EventName.PLAYER_DEAD, EventDead);
+    }
+
+    protected override void SetupDestroy()
+    {
+        base.SetupDestroy();
+
+        this.RegisterEventListener(EventName.PLAYER_DEAD, EventDead);
+    }
 
     protected override void SetupStart()
     {
@@ -34,6 +49,8 @@ public class EnemyController : CharacterController
 
     protected override void SetupUpdate()
     {
+        if (eCharacterState == ECharacterState.DIE) return;
+
         base.SetupUpdate();
 
         if (!isInFirstPos && !IsCanChaseTarget() && eCharacterState != ECharacterState.ATTACK &&
@@ -41,6 +58,13 @@ public class EnemyController : CharacterController
         {
             ChangeStateMachine(new IdleStateMachine());
         }
+    }
+
+    protected override void Dead()
+    {
+        base.Dead();
+
+        this.PostEvent(EventName.ENEMY_DEAD, new object[] { this });
     }
 
     public override void ExcuteIdle()

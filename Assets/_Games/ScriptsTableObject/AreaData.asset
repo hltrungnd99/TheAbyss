@@ -16,30 +16,30 @@ MonoBehaviour:
   - countEnemyNomal: 5
     areaID: 0
     listEnemy:
-    - {fileID: 1664361761664440104, guid: 4c5d4735db8b1f94fb0a42a8aed5ee42, type: 3}
+    - {fileID: 6193892327511114364, guid: 7e04eef95fe06ce43855d3a5c54cdedc, type: 3}
     boss: {fileID: 0}
     sideAreaElement: []
   - countEnemyNomal: 4
     areaID: 1
     listEnemy:
-    - {fileID: 1664361761664440104, guid: 4c5d4735db8b1f94fb0a42a8aed5ee42, type: 3}
+    - {fileID: 6193892327511114364, guid: 7e04eef95fe06ce43855d3a5c54cdedc, type: 3}
     boss: {fileID: 0}
     sideAreaElement: []
   - countEnemyNomal: 3
     areaID: 2
     listEnemy:
-    - {fileID: 1664361761664440104, guid: 4c5d4735db8b1f94fb0a42a8aed5ee42, type: 3}
+    - {fileID: 6193892327511114364, guid: 7e04eef95fe06ce43855d3a5c54cdedc, type: 3}
     boss: {fileID: 0}
     sideAreaElement: []
   - countEnemyNomal: 3
     areaID: 3
     listEnemy:
-    - {fileID: 1664361761664440104, guid: 4c5d4735db8b1f94fb0a42a8aed5ee42, type: 3}
+    - {fileID: 6193892327511114364, guid: 7e04eef95fe06ce43855d3a5c54cdedc, type: 3}
     boss: {fileID: 0}
     sideAreaElement: []
   - countEnemyNomal: 2
     areaID: 4
     listEnemy:
-    - {fileID: 1664361761664440104, guid: 4c5d4735db8b1f94fb0a42a8aed5ee42, type: 3}
+    - {fileID: 6193892327511114364, guid: 7e04eef95fe06ce43855d3a5c54cdedc, type: 3}
     boss: {fileID: 0}
     sideAreaElement: []

@@ -10,8 +10,10 @@ public class AreaData : ScriptableObject
 [System.Serializable]
 public class AreaElement
 {
-    public int count;
+    public int countEnemyNomal;
     public int areaID;
     public CharacterController[] listEnemy;
+    public CharacterController boss;
+    public SideAreaElement[] sideAreaElement;
 }
 

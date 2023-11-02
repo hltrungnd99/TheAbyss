@@ -10,8 +10,9 @@ public class Area : MonoBehaviour
     [SerializeField] protected DataProvider data;
     [SerializeField] protected CharacterController[] enemys;
     [SerializeField] protected GameObject brigdePrefab;
-    [SerializeField] protected GameObject brigdePos;
-    private Brigde myBrigde;
+    [SerializeField] protected Transform pointCenterPos;
+    [SerializeField] protected List<Vector3> spawnerEnemyPos;
+    protected Brigde myBrigde;
     //public bool canMoveArea => countDie <= 0;
     public int areaID;
     public bool canMoveArea = false;
@@ -24,21 +25,16 @@ public class Area : MonoBehaviour
     }
     private void Update()
     {
-        timer += Time.deltaTime;
-        if (timer > 2f && count > 0)
-        {
-            SpawnerEnemy();
-            timer = 0;
+
+
+
             if (count == 0)
             {
                 canMoveArea = true;
             }
-        }
         if (myBrigde == null)
         {
-            myBrigde = Instantiate(brigdePrefab, brigdePos.transform.position,Quaternion.identity).GetComponent<Brigde>();
-
-
+            myBrigde = Instantiate(brigdePrefab).GetComponent<Brigde>();
         }
     }
     public void OnInitData()
@@ -47,25 +43,57 @@ public class Area : MonoBehaviour
         {
             if (areaID == data.areaData.areaElement[i].areaID)
             {
-                count = data.areaData.areaElement[i].count;
+                count = data.areaData.areaElement[i].countEnemyNomal;
                 enemys = data.areaData.areaElement[i].listEnemy;
             }
         }
+        SetupPosEnemy();
+        SpawnerEnemy();
     }
     public void SpawnerEnemy()
     {
-        float posX = Random.Range(transform.position.x-5, transform.position.x + 5);
-        float posZ = Random.Range(transform.position.z - 5, transform.position.z + 5);
-        Vector3 pos = new Vector3(posX, 0, posZ);
-        int rand = Random.Range(0, enemys.Length);
-        CharacterController enemy = Instantiate(enemys[rand], pos, Quaternion.identity);
-        count--;
+        int index = count;
+        for (int i = 0; i < index; i++)
+        {
+            Vector3 pos = spawnerEnemyPos[i];
+            int rand = Random.Range(0, enemys.Length);
+            CharacterController enemy = Instantiate(enemys[rand], pos, Quaternion.identity);
+            count--;
+        }
+    }
+    protected void SetupPosEnemy()
+    {
+        Vector3 pos = RandomPosEnemy();
+
+        for (int i = 0; i < count; i++)
+        {
+            if (spawnerEnemyPos.Count == 0)
+            {
+                spawnerEnemyPos.Add(pos);
+            }
+            if (spawnerEnemyPos.Count >= count) return;
+            if (Vector3.Distance(spawnerEnemyPos[i], pos) > 2)
+            {
+                spawnerEnemyPos.Add(pos);
+            }
+            else
+            {
+                i--;
+                pos = RandomPosEnemy();
+            }
+        }
+    }
+    protected Vector3 RandomPosEnemy()
+    {
+        float x = Random.Range(pointCenterPos.position.x - 3, pointCenterPos.position.x + 3);
+        float z = Random.Range(pointCenterPos.position.z - 3, pointCenterPos.position.z + 3);
+        Vector3 pos = new Vector3(x, 0, z);
+        return pos;
     }
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag(ConstTags.PLAYER_TAG))
         {
-            Debug.LogError("chec");
             changArea?.Invoke(this);
         }
     }

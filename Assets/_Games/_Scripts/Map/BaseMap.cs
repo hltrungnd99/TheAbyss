@@ -6,6 +6,7 @@ public class BaseMap : MonoBehaviour
 {
     public Area[] area;
     public Transform[] areaPos;
+    public Transform[] brigdePos;
     public int currentAreaID;
     public Area currentArea;
     public List<Area> myAreaEnables = new List<Area>();
@@ -22,7 +23,7 @@ public class BaseMap : MonoBehaviour
             if(areaID == myAreaEnables[i].areaID)
             {
                 myAreaEnables[i].gameObject.SetActive(true);
-                //ChangArea(myAreaEnables[i]);
+                ChangArea(myAreaEnables[i]);
                 return myAreaEnables[i];
             }
         }
@@ -32,11 +33,9 @@ public class BaseMap : MonoBehaviour
         are.changArea += ChangArea;
         return are;
     }
-    public void ChangArea(Area area)
+    protected void ChangArea(Area area)
     {
         currentArea = area;
         currentAreaID = area.areaID;
-        Debug.LogError("Test");
     }
-   
 }

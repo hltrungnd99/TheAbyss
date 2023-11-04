@@ -11,7 +11,7 @@ public class BattleSimulator : MonoBehaviour
     public float Output;
     public void Attack()
     {
-        Output = Defender.HandlingDamageReceived(Attacker.Damage.Value);
+        Output = Defender.HandlingDamageReceived(statisticFactory: Attacker);
     }
 }
 

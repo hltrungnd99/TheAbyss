@@ -51,33 +51,38 @@ public class StatisticFactory : MonoBehaviour
     }
 
     //[!] Interface function, xử lý sát thương nhận vào
-    public float HandlingDamageReceived(float damageReceived, StatModifier criticalDamage = null, StatModifier extraDamage = null, StatModifier reduceDamage = null/* , Action onHandleComplete = null */)
+    public float HandlingDamageReceived(StatisticFactory statisticFactory /*float damageReceived, StatModifier criticalDamage = null, StatModifier extraDamage = null, StatModifier reduceDamage = null , Action onHandleComplete = null */)
     {
         //[x] Chưa có dead flag
         // Healh -= CalculateFinalDamageReceived(damageReceived, criticalDamage, extraDamage, reduceDamage);
-
         // onHandleComplete?.Invoke();
-        return CalculateFinalDamageReceived(damageReceived, criticalDamage, extraDamage, reduceDamage);
+
+        return CalculateFinalDamageReceived(statisticFactory);
     }
 
     Stat output = new Stat();
     float finalReceivedDamaged;
     //[!] Tính toán lượng sát thương cuối cùng nhận vào
-    float CalculateFinalDamageReceived(float damageReceived, StatModifier criticalDamage, StatModifier extraDamage, StatModifier reduceDamage) //[x] Pack lại tất cả modifier
+    float CalculateFinalDamageReceived(StatisticFactory statisticFactory)
     {
-        finalReceivedDamaged = CalculateBaseDamageReceived(damageReceived: damageReceived);
+        finalReceivedDamaged = CalculateBaseDamageReceived(
+            damageReceived: statisticFactory.Damage.Value,
+            penetrate: statisticFactory.Penetrate.Value);
 
-        output = new Stat(baseValue: finalReceivedDamaged)
-            .CalulateCriticalDamage(criticalDamage: criticalDamage)
-            .CalculateExtraDamage(extraDamage: extraDamage)
-            .CalculateReduceDamage(reduceDamage: reduceDamage);
+        output = new Stat(baseValue: finalReceivedDamaged);
+
+        if (statisticFactory.CriticalRate.Value >= UnityEngine.Random.Range(0, 101))
+        {
+            output.CalulateCriticalDamage(new StatModifier(statisticFactory.CriticalDamage.Value, STATTYPE.PERCENT, STAT.CRITDMG));
+        }
 
         return output.Value < 0 ? 0 : output.Value;
     }
 
-    float CalculateBaseDamageReceived(float damageReceived)
+    float CalculateBaseDamageReceived(float damageReceived, float penetrate)
     {
-        return (damageReceived * 2) / (damageReceived + (Defense.Value + (Defense.Value * Penetrate.Value)));
+        // Debug.Log($"({damageReceived}*{damageReceived})/({damageReceived}+({Defense.Value}-({Defense.Value}*{penetrate}%)))");
+        return (damageReceived * damageReceived) / (damageReceived + (Defense.Value - (Defense.Value * penetrate / 100)));
     }
 }
 

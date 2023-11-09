@@ -73,9 +73,10 @@ public class StatisticFactory : MonoBehaviour
 
         if (statisticFactory.CriticalRate.Value >= UnityEngine.Random.Range(0, 101))
         {
-            output.CalulateCriticalDamage(new StatModifier(statisticFactory.CriticalDamage.Value, STATTYPE.PERCENT, STAT.CRITDMG));
+            output.CalulateCriticalDamage(new StatModifier(statisticFactory.CriticalDamage.Value, STATTYPE.PERCENT));
         }
 
+        output.CalculateReduceDamage(new StatModifier(-DamageReduction.Value, STATTYPE.PERCENT));
         return output.Value < 0 ? 0 : output.Value;
     }
 

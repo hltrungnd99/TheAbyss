@@ -18,30 +18,30 @@ public class StatisticFactory : MonoBehaviour
             }
 
             health = value;
-            // HealthBar.HP = health; 
+            // HealthBar.HP.UpdateValue(value);
         }
     }
 
     [Header("--- STATS (ATTACK TYPE) ---")]
     public Stat Damage;
-    public Stat Range;
     public Stat CriticalRate;
     public Stat CriticalDamage;
-    public Stat AttackSpeed;
     public Stat Penetrate;
-    public Stat Accurate;
 
     [Header("--- STATS (DEFEND TYPE) ---")]
     public Stat MaxHealth;
-    public Stat Recovery;
     public Stat Defense;
-    public Stat Evasion;
     public Stat DamageReduction;
     public Stat Block;
 
-    [Header("--- STATS (OTHER TYPE) ---")]
+    [Header("---UNUSED STATS (OTHER TYPE) ---")]
     public Stat MovementSpeed;
     public Stat Vampire;
+    public Stat Evasion;
+    public Stat Recovery;
+    public Stat Accurate;
+    public Stat AttackSpeed;
+    public Stat Range;
 
     public void InitializeBaseStats()
     {
@@ -50,17 +50,18 @@ public class StatisticFactory : MonoBehaviour
         // Damage = new Stat(baseValue: 10f);
     }
 
-    //[!] Interface function, xử lý sát thương nhận vào
-    public float HandlingDamageReceived(StatisticFactory statisticFactory /*float damageReceived, StatModifier criticalDamage = null, StatModifier extraDamage = null, StatModifier reduceDamage = null , Action onHandleComplete = null */)
+    //[!] Interface function, xử lý sát thương nhận vào\
+    float damageReceived;
+    public float HandlingDamageReceived(StatisticFactory statisticFactory, Action<bool> IfThisDead = null /*float damageReceived, StatModifier criticalDamage = null, StatModifier extraDamage = null, StatModifier reduceDamage = null */)
     {
         //[x] Chưa có dead flag
-        // Healh -= CalculateFinalDamageReceived(damageReceived, criticalDamage, extraDamage, reduceDamage);
-        // onHandleComplete?.Invoke();
-
-        return CalculateFinalDamageReceived(statisticFactory);
+        damageReceived = CalculateFinalDamageReceived(statisticFactory);
+        Healh -= damageReceived;
+        IfThisDead?.Invoke(Healh == 0);
+        return damageReceived;
     }
 
-    Stat output = new Stat();
+    Stat output = new();
     float finalReceivedDamaged;
     //[!] Tính toán lượng sát thương cuối cùng nhận vào
     float CalculateFinalDamageReceived(StatisticFactory statisticFactory)

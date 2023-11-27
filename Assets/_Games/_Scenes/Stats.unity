@@ -228,7 +228,7 @@ GameObject:
   - component: {fileID: 305510067}
   - component: {fileID: 305510068}
   m_Layer: 0
-  m_Name: Ally
+  m_Name: Attacker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -263,28 +263,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 0
   Damage:
-    BaseValue: 10
-    value: 10
+    BaseValue: 1541
+    value: 1541
     statModifiers: []
   Range:
     BaseValue: 0
     value: 0
     statModifiers: []
   CriticalRate:
-    BaseValue: 0
-    value: 0
+    BaseValue: 100
+    value: 100
     statModifiers: []
   CriticalDamage:
-    BaseValue: 0
-    value: 0
+    BaseValue: 50
+    value: 50
     statModifiers: []
   AttackSpeed:
     BaseValue: 0
     value: 0
     statModifiers: []
   Penetrate:
-    BaseValue: 0
-    value: 0
+    BaseValue: 40
+    value: 40
     statModifiers: []
   Accurate:
     BaseValue: 0
@@ -401,7 +401,7 @@ GameObject:
   - component: {fileID: 1253647049}
   - component: {fileID: 1253647048}
   m_Layer: 0
-  m_Name: Enemy
+  m_Name: Dummy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -457,16 +457,16 @@ MonoBehaviour:
     value: 0
     statModifiers: []
   Defense:
-    BaseValue: 0
-    value: 0
+    BaseValue: 578
+    value: 578
     statModifiers: []
   Evasion:
     BaseValue: 0
     value: 0
     statModifiers: []
   DamageReduction:
-    BaseValue: 0
-    value: 0
+    BaseValue: 15
+    value: 15
     statModifiers: []
   Block:
     BaseValue: 0
@@ -526,7 +526,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Attacker: {fileID: 305510068}
   Defender: {fileID: 1253647048}
-  Output: 2
+  Output: 1698.18
 --- !u!4 &1423698048
 Transform:
   m_ObjectHideFlags: 0

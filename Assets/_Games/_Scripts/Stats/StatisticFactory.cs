@@ -18,30 +18,30 @@ public class StatisticFactory : MonoBehaviour
             }
 
             health = value;
-            // HealthBar.HP = health; 
+            // HealthBar.HP.UpdateValue(value);
         }
     }
 
     [Header("--- STATS (ATTACK TYPE) ---")]
     public Stat Damage;
-    public Stat Range;
     public Stat CriticalRate;
     public Stat CriticalDamage;
-    public Stat AttackSpeed;
     public Stat Penetrate;
-    public Stat Accurate;
 
     [Header("--- STATS (DEFEND TYPE) ---")]
     public Stat MaxHealth;
-    public Stat Recovery;
     public Stat Defense;
-    public Stat Evasion;
     public Stat DamageReduction;
     public Stat Block;
 
-    [Header("--- STATS (OTHER TYPE) ---")]
+    [Header("---UNUSED STATS (OTHER TYPE) ---")]
     public Stat MovementSpeed;
     public Stat Vampire;
+    public Stat Evasion;
+    public Stat Recovery;
+    public Stat Accurate;
+    public Stat AttackSpeed;
+    public Stat Range;
 
     public void InitializeBaseStats()
     {
@@ -50,34 +50,41 @@ public class StatisticFactory : MonoBehaviour
         // Damage = new Stat(baseValue: 10f);
     }
 
-    //[!] Interface function, xử lý sát thương nhận vào
-    public float HandlingDamageReceived(float damageReceived, StatModifier criticalDamage = null, StatModifier extraDamage = null, StatModifier reduceDamage = null/* , Action onHandleComplete = null */)
+    //[!] Interface function, xử lý sát thương nhận vào\
+    float damageReceived;
+    public float HandlingDamageReceived(StatisticFactory statisticFactory, Action<bool> IfThisDead = null /*float damageReceived, StatModifier criticalDamage = null, StatModifier extraDamage = null, StatModifier reduceDamage = null */)
     {
         //[x] Chưa có dead flag
-        // Healh -= CalculateFinalDamageReceived(damageReceived, criticalDamage, extraDamage, reduceDamage);
-
-        // onHandleComplete?.Invoke();
-        return CalculateFinalDamageReceived(damageReceived, criticalDamage, extraDamage, reduceDamage);
+        damageReceived = CalculateFinalDamageReceived(statisticFactory);
+        Healh -= damageReceived;
+        IfThisDead?.Invoke(Healh == 0);
+        return damageReceived;
     }
 
-    Stat output = new Stat();
+    Stat output = new();
     float finalReceivedDamaged;
     //[!] Tính toán lượng sát thương cuối cùng nhận vào
-    float CalculateFinalDamageReceived(float damageReceived, StatModifier criticalDamage, StatModifier extraDamage, StatModifier reduceDamage) //[x] Pack lại tất cả modifier
+    float CalculateFinalDamageReceived(StatisticFactory statisticFactory)
     {
-        finalReceivedDamaged = CalculateBaseDamageReceived(damageReceived: damageReceived);
+        finalReceivedDamaged = CalculateBaseDamageReceived(
+            damageReceived: statisticFactory.Damage.Value,
+            penetrate: statisticFactory.Penetrate.Value);
 
-        output = new Stat(baseValue: finalReceivedDamaged)
-            .CalulateCriticalDamage(criticalDamage: criticalDamage)
-            .CalculateExtraDamage(extraDamage: extraDamage)
-            .CalculateReduceDamage(reduceDamage: reduceDamage);
+        output = new Stat(baseValue: finalReceivedDamaged);
 
+        if (statisticFactory.CriticalRate.Value >= UnityEngine.Random.Range(0, 101))
+        {
+            output.CalulateCriticalDamage(new StatModifier(statisticFactory.CriticalDamage.Value, STATTYPE.PERCENT));
+        }
+
+        output.CalculateReduceDamage(new StatModifier(-DamageReduction.Value, STATTYPE.PERCENT));
         return output.Value < 0 ? 0 : output.Value;
     }
 
-    float CalculateBaseDamageReceived(float damageReceived)
+    float CalculateBaseDamageReceived(float damageReceived, float penetrate)
     {
-        return (damageReceived * 2) / (damageReceived + (Defense.Value + (Defense.Value * Penetrate.Value)));
+        // Debug.Log($"({damageReceived}*{damageReceived})/({damageReceived}+({Defense.Value}-({Defense.Value}*{penetrate}%)))");
+        return (damageReceived * damageReceived) / (damageReceived + (Defense.Value - (Defense.Value * penetrate / 100)));
     }
 }
 

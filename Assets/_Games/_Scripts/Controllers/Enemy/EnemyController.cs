@@ -13,6 +13,7 @@ public class EnemyController : CharacterController
     private List<PlayerController> listPlayerInZone = new List<PlayerController>();
     private Vector3 originPos;
     private bool isInFirstPos = true;
+    public PoolType poolType;
 
     protected override void SetupAwake()
     {

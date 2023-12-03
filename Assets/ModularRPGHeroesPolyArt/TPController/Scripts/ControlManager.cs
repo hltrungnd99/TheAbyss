@@ -135,7 +135,7 @@ namespace DM
                 targetSpeed = sprintSpeed;    //set sprint speed as target speed.            
             }
 
-            //mixing camera rotation value to the character moving value.
+            //mixing camera areaRotation value to the character moving value.
             Vector3 v = vertical * camManager.transform.forward;
             Vector3 h = horizontal * camManager.transform.right;            
 
@@ -181,7 +181,7 @@ namespace DM
                 }                 
             }            
 
-            //This can control character's rotation.
+            //This can control character's areaRotation.
             if (canMove)
             {
                 Vector3 targetDir = moveDir;

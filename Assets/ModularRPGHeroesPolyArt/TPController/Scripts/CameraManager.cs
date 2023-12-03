@@ -13,7 +13,7 @@ namespace DM
         public Transform target;    //stores the target for camera.
 
         [HideInInspector]
-        public Transform pivot;     //pivot for camera's rotation.
+        public Transform pivot;     //pivot for camera's areaRotation.
         [HideInInspector]
         public Transform camTrans;  //stores camera's root transform.
 
@@ -64,7 +64,7 @@ namespace DM
             transform.position = targetPosition;
         }
 
-        void HandleRotations(float d, float v, float h, float targetSpeed)  //defines the rotation of camera.
+        void HandleRotations(float d, float v, float h, float targetSpeed)  //defines the areaRotation of camera.
         {
             if(turnSmoothing > 0)
             {

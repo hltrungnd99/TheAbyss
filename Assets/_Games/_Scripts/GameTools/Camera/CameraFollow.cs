@@ -1,19 +1,44 @@
-using System.Collections;
-using System.Collections.Generic;
+using _Games._Scripts.Controllers.Player;
 using UnityEngine;
 
-public class CameraFollow : MonoBehaviour
+namespace _Games._Scripts
 {
-    private Vector3 pos;
-    [SerializeField] private Transform targetPos;
-    private void Start()
+    public class CameraFollow : MonoBehaviour
     {
-        pos = targetPos.position - transform.position;
-    }
+        [SerializeField] private Transform target;
+        [SerializeField] private PlayerController player;
 
-    private void LateUpdate()
-    {
-        Vector3 newPos = targetPos.position - pos;
-        transform.position = newPos;
+        [SerializeField] private float speed;
+        [SerializeField] private float minSpeed;
+        [SerializeField] private float maxSpeed;
+
+        private Vector3 distanceTargetToCam;
+        private Vector3 direction;
+
+        private void Start()
+        {
+            distanceTargetToCam = transform.position - target.position;
+        }
+
+        private void LateUpdate()
+        {
+            if (player.IsMoving)
+            {
+                direction = player.DirectionMove;
+                speed += Time.deltaTime * 3;
+                speed = Mathf.Clamp(speed, minSpeed, maxSpeed);
+            }
+            else
+            {
+                speed -= Time.deltaTime * 3;
+                speed = Mathf.Clamp(speed, minSpeed, maxSpeed);
+            }
+
+            if (target)
+            {
+                transform.position = Vector3.Lerp(transform.position,
+                    target.position + distanceTargetToCam + direction, Time.deltaTime * speed);
+            }
+        }
     }
 }

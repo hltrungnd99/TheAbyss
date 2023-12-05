@@ -10,7 +10,7 @@ public class EnemyController : CharacterController
     [SerializeField] protected NavMeshAgent navMeshEnemy;
     [SerializeField] protected GameObject objTarget;
 
-    private List<PlayerController> listPlayerInZone = new List<PlayerController>();
+    private List<PlayerController> listPlayerInZone = new();
     private Vector3 originPos;
     private bool isInFirstPos = true;
     public PoolType poolType;
@@ -33,14 +33,16 @@ public class EnemyController : CharacterController
     {
         base.SetupStart();
 
+        newGo = new GameObject();
         StartCoroutine(IEDelayCache());
     }
 
     private IEnumerator IEDelayCache()
     {
-        yield return new WaitForSeconds(0.5f);
-
         originPos = transform.position;
+        yield return new WaitUntil(() => gameObject.activeInHierarchy);
+
+        // navMeshEnemy.SetDestination(originPos);
     }
 
     public override void ActiveTarget(bool isActive)
@@ -116,6 +118,8 @@ public class EnemyController : CharacterController
         isInFirstPos = false;
     }
 
+    public GameObject newGo;
+
     public override void ExcuteChase()
     {
         base.ExcuteChase();
@@ -124,7 +128,9 @@ public class EnemyController : CharacterController
         {
             navMeshEnemy.enabled = true;
             navMeshEnemy.isStopped = false;
-            navMeshEnemy.SetDestination(transCharTarget.position);
+            var pos = transCharTarget.position;
+            newGo.transform.position = pos;
+            navMeshEnemy.SetDestination(pos);
 
             if (IsCanNormalAttack())
             {
@@ -174,7 +180,7 @@ public class EnemyController : CharacterController
 
         if (listPlayerInZone.Count > 0 && eCharacterState != ECharacterState.ATTACK)
         {
-            for (int i = 0; i < listPlayerInZone.Count; i++)
+            for (var i = 0; i < listPlayerInZone.Count; i++)
             {
                 listPlayerInZone[i].ActiveTarget(false);
                 var disntace = Vector3.Distance(transform.position, listPlayerInZone[i].transform.position);

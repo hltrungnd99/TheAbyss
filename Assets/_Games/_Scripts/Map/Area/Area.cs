@@ -1,16 +1,15 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Area : MonoBehaviour
 {
-    [SerializeField] protected int countEnemyInArea;
     [SerializeField] protected bool isSideArea;
     [SerializeField] protected Transform sideAreaSpawnPos;
     [SerializeField] protected Transform enemySpawnPos;
-    [SerializeField] protected List<int> listWeightInArea;
-    [SerializeField] protected List<EnemyController> listEnemysWeight;
-    [SerializeField] protected List<EnemyController> listEnemySpawnFromArea;
+    [SerializeField] protected AreaElement areaElement;
+    [SerializeField] protected List<EnemyController> listEnemySpawnFromArea = new();
+    [SerializeField] protected EnemyZone enemyZone;
+
     public Vector3 areaPosition = new Vector3();
     public Quaternion areaRotation = new Quaternion();
     public int areaIDData;
@@ -32,20 +31,21 @@ public class Area : MonoBehaviour
         //    DeActiveArea();
         //}
     }
-    protected void GetData()
+
+    private void GetData()
     {
-        int index = DataProvider.instance.DataArea.dataInArea.Length;
-        for (int i = 0; i < index; i++)
+        var index = DataProvider.instance.DataArea.dataInArea.Length;
+        for (var i = 0; i < index; i++)
         {
             if (areaIDData != DataProvider.instance.DataArea.dataInArea[i].areaID) continue;
-            isSideArea = DataProvider.instance.DataArea.dataInArea[i].isSideArea;
-            countEnemyInArea = DataProvider.instance.DataArea.dataInArea[i].countEnemyNomalInArea;
-            listWeightInArea = DataProvider.instance.DataArea.dataInArea[i].weightEnemyInArea;
-            listEnemysWeight = DataProvider.instance.DataArea.dataInArea[i].listEnemySpawnInArea;
+            areaElement = DataProvider.instance.DataArea.dataInArea[i];
+            isSideArea = areaElement.isSideArea;
         }
+
         CheckIsSideArea();
     }
-    protected void CheckIsSideArea()
+
+    private void CheckIsSideArea()
     {
         if (isSideArea)
         {
@@ -56,11 +56,12 @@ public class Area : MonoBehaviour
             sideAreaSpawnPos.gameObject.SetActive(false);
         }
     }
+
     protected virtual Vector3 GetPosEnemy()
     {
-        float ranX = Random.Range(enemySpawnPos.transform.position.x - 5, enemySpawnPos.transform.position.x + 5);
-        float ranZ = Random.Range(enemySpawnPos.transform.position.z - 5, enemySpawnPos.transform.position.z + 5);
-        Vector3 pos = new Vector3(ranX, 0, ranZ);
+        var ranX = Random.Range(enemySpawnPos.transform.position.x - 5, enemySpawnPos.transform.position.x + 5);
+        var ranZ = Random.Range(enemySpawnPos.transform.position.z - 5, enemySpawnPos.transform.position.z + 5);
+        var pos = new Vector3(ranX, 0, ranZ);
         return pos;
     }
 
@@ -99,28 +100,34 @@ public class Area : MonoBehaviour
         GetData();
         SpawnEnemy();
     }
+
     public virtual void DeActiveArea()
     {
         ReturnSpawnerEnemy();
     }
-    public virtual void SpawnEnemy()
+
+    protected virtual void SpawnEnemy()
     {
-        for (int i = 0; i < countEnemyInArea; i++)
+        for (var i = 0; i < areaElement.countEnemyNomalInArea; i++)
         {
-            Vector3 pos = GetPosEnemy();
-            EnemyController go = SpawnerEnemyArea.Instance.SpawnerEnemyInArea(listWeightInArea, listEnemysWeight, pos, Quaternion.identity);
+            var pos = GetPosEnemy();
+            var go = SpawnerEnemyArea.Instance.SpawnerEnemyInArea(areaElement.weightEnemyInArea,
+                areaElement.listEnemySpawnInArea, pos, Quaternion.identity);
+            enemyZone.AddEnemyToZone(go);
             listEnemySpawnFromArea.Add(go);
         }
         //SetUpPosEnemy(0);
     }
+
     protected virtual void ReturnSpawnerEnemy()
     {
-        for (int i = 0; i < listEnemySpawnFromArea.Count; i++)
+        for (var i = 0; i < listEnemySpawnFromArea.Count; i++)
         {
-
             //Enemy in DeActive;
-            SpawnerEnemyArea.Instance.DeSpawnerEnemyInArea(listEnemySpawnFromArea[i].gameObject, listEnemySpawnFromArea[i].poolType);
+            SpawnerEnemyArea.Instance.DeSpawnerEnemyInArea(listEnemySpawnFromArea[i].gameObject,
+                listEnemySpawnFromArea[i].poolType);
         }
+
         listEnemySpawnFromArea.Clear();
     }
 }

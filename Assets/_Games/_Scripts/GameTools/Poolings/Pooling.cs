@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,8 +12,9 @@ public class Pooling : Singleton<Pooling>
         public GameObject poolPrefab;
         public Transform parent;
     }
+
     public List<Pool> listPools = new List<Pool>();
-    public Dictionary<PoolType, Queue<GameObject>> dicPools = new Dictionary<PoolType, Queue<GameObject>>();
+    public Dictionary<PoolType, Queue<GameObject>> dicPools = new();
 
     protected override void Awake()
     {
@@ -29,13 +29,15 @@ public class Pooling : Singleton<Pooling>
                 gameObjects.Enqueue(go);
                 go.gameObject.SetActive(false);
             }
+
             dicPools.Add(type, gameObjects);
         }
     }
+
     public GameObject GetPool(Vector3 position, Quaternion rotate, PoolType type)
     {
         GameObject go = null;
-        for (int i = 0; i < listPools.Count; i++)
+        for (var i = 0; i < listPools.Count; i++)
         {
             if (listPools[i].poolType != type) continue;
             Queue<GameObject> que = new Queue<GameObject>();
@@ -66,13 +68,16 @@ public class Pooling : Singleton<Pooling>
                 }
             }
         }
+
         return go;
     }
+
     public void ReturnPool(GameObject go, PoolType type)
     {
         go.gameObject.SetActive(false);
         dicPools[type].Enqueue(go);
     }
+
     protected GameObject SpawnPool(GameObject prefab, Transform parent, Vector3 position, Quaternion rotate)
     {
         GameObject go = null;
@@ -82,6 +87,7 @@ public class Pooling : Singleton<Pooling>
         return go;
     }
 }
+
 public enum PoolType
 {
     None = 0,
@@ -90,5 +96,4 @@ public enum PoolType
     Enemy3,
 
     Area
-
 }

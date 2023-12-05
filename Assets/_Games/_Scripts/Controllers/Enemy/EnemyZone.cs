@@ -4,9 +4,17 @@ using UnityEngine;
 
 public class EnemyZone : MonoBehaviour
 {
-    [SerializeField] private List<EnemyController> listEnemyInZone = new List<EnemyController>();
+    [SerializeField] private List<EnemyController> listEnemyInZone = new();
 
     private PlayerController player;
+
+    public void AddEnemyToZone(EnemyController enemyController)
+    {
+        if (!listEnemyInZone.Contains(enemyController))
+        {
+            listEnemyInZone.Add(enemyController);
+        }
+    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -15,7 +23,8 @@ public class EnemyZone : MonoBehaviour
             player = other.GetComponentInParent<PlayerController>();
             if (player)
             {
-                for (int i = 0; i < listEnemyInZone.Count; i++)
+                Debug.LogError("add");
+                for (var i = 0; i < listEnemyInZone.Count; i++)
                 {
                     listEnemyInZone[i].AddPlayerInZone(player);
                 }
@@ -30,7 +39,7 @@ public class EnemyZone : MonoBehaviour
             player = other.GetComponentInParent<PlayerController>();
             if (player)
             {
-                for (int i = 0; i < listEnemyInZone.Count; i++)
+                for (var i = 0; i < listEnemyInZone.Count; i++)
                 {
                     listEnemyInZone[i].RemovePlayerInZone(player);
                 }

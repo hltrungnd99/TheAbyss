@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class DataProvider : Singleton<DataProvider>
 {
-    public AreaData DataArea;
+    [FormerlySerializedAs("DataArea")] public LevelData dataLevel;
 }

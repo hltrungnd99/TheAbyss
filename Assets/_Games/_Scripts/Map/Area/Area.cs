@@ -1,12 +1,13 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class Area : MonoBehaviour
 {
     [SerializeField] protected bool isSideArea;
     [SerializeField] protected Transform sideAreaSpawnPos;
     [SerializeField] protected Transform enemySpawnPos;
-    [SerializeField] protected AreaElement areaElement;
+    [FormerlySerializedAs("areaElement")] [SerializeField] protected LevelElement levelElement;
     [SerializeField] protected List<EnemyController> listEnemySpawnFromArea = new();
     [SerializeField] protected EnemyZone enemyZone;
 
@@ -34,12 +35,12 @@ public class Area : MonoBehaviour
 
     private void GetData()
     {
-        var index = DataProvider.instance.DataArea.dataInArea.Length;
+        var index = DataProvider.instance.dataLevel.dataInArea.Length;
         for (var i = 0; i < index; i++)
         {
-            if (areaIDData != DataProvider.instance.DataArea.dataInArea[i].areaID) continue;
-            areaElement = DataProvider.instance.DataArea.dataInArea[i];
-            isSideArea = areaElement.isSideArea;
+            if (areaIDData != DataProvider.instance.dataLevel.dataInArea[i].areaID) continue;
+            levelElement = DataProvider.instance.dataLevel.dataInArea[i];
+            isSideArea = levelElement.isSideArea;
         }
 
         CheckIsSideArea();
@@ -108,11 +109,11 @@ public class Area : MonoBehaviour
 
     protected virtual void SpawnEnemy()
     {
-        for (var i = 0; i < areaElement.countEnemyNomalInArea; i++)
+        for (var i = 0; i < levelElement.countEnemyNomalInArea; i++)
         {
             var pos = GetPosEnemy();
-            var go = SpawnerEnemyArea.Instance.SpawnerEnemyInArea(areaElement.weightEnemyInArea,
-                areaElement.listEnemySpawnInArea, pos, Quaternion.identity);
+            var go = SpawnerEnemyArea.Instance.SpawnerEnemyInArea(levelElement.weightEnemyInArea,
+                levelElement.listEnemySpawnInArea, pos, Quaternion.identity);
             enemyZone.AddEnemyToZone(go);
             listEnemySpawnFromArea.Add(go);
         }

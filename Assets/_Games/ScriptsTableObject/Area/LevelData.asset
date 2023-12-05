@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d0d5f9e696adc74da200014527f3984, type: 3}
+  m_Name: LevelData
+  m_EditorClassIdentifier: 
+  dataInArea:
+  - isSideArea: 1
+    countEnemyNomalInArea: 5
+    areaID: 1
+    weightEnemyInArea: 5a0000003200000001000000
+    listEnemySpawnInArea:
+    - {fileID: 6193892327511114364, guid: 7e04eef95fe06ce43855d3a5c54cdedc, type: 3}
+    - {fileID: 6193892327511114364, guid: 857231ad5a5d67a4da057f459ffd9672, type: 3}
+    - {fileID: 6193892327511114364, guid: d400aeee4fdd809428bb360099fe0809, type: 3}
+  - isSideArea: 0
+    countEnemyNomalInArea: 3
+    areaID: 2
+    weightEnemyInArea: 01000000320000005a000000
+    listEnemySpawnInArea:
+    - {fileID: 6193892327511114364, guid: 7e04eef95fe06ce43855d3a5c54cdedc, type: 3}
+    - {fileID: 6193892327511114364, guid: 857231ad5a5d67a4da057f459ffd9672, type: 3}
+    - {fileID: 6193892327511114364, guid: d400aeee4fdd809428bb360099fe0809, type: 3}
+  - isSideArea: 1
+    countEnemyNomalInArea: 2
+    areaID: 3
+    weightEnemyInArea: 190000005a00000019000000
+    listEnemySpawnInArea:
+    - {fileID: 6193892327511114364, guid: 7e04eef95fe06ce43855d3a5c54cdedc, type: 3}
+    - {fileID: 6193892327511114364, guid: 857231ad5a5d67a4da057f459ffd9672, type: 3}
+    - {fileID: 6193892327511114364, guid: d400aeee4fdd809428bb360099fe0809, type: 3}

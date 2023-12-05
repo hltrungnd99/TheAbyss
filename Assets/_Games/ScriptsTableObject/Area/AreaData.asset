@@ -9,31 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d0d5f9e696adc74da200014527f3984, type: 3}
+  m_Script: {fileID: 11500000, guid: 1e727d86e1e023c49be9319bfbe1bb73, type: 3}
   m_Name: AreaData
   m_EditorClassIdentifier: 
-  dataInArea:
-  - isSideArea: 1
-    countEnemyNomalInArea: 5
-    areaID: 1
-    weightEnemyInArea: 5a0000003200000001000000
-    listEnemySpawnInArea:
-    - {fileID: 6193892327511114364, guid: 7e04eef95fe06ce43855d3a5c54cdedc, type: 3}
-    - {fileID: 6193892327511114364, guid: 857231ad5a5d67a4da057f459ffd9672, type: 3}
-    - {fileID: 6193892327511114364, guid: d400aeee4fdd809428bb360099fe0809, type: 3}
-  - isSideArea: 0
-    countEnemyNomalInArea: 3
-    areaID: 2
-    weightEnemyInArea: 01000000320000005a000000
-    listEnemySpawnInArea:
-    - {fileID: 6193892327511114364, guid: 7e04eef95fe06ce43855d3a5c54cdedc, type: 3}
-    - {fileID: 6193892327511114364, guid: 857231ad5a5d67a4da057f459ffd9672, type: 3}
-    - {fileID: 6193892327511114364, guid: d400aeee4fdd809428bb360099fe0809, type: 3}
-  - isSideArea: 1
-    countEnemyNomalInArea: 2
-    areaID: 3
-    weightEnemyInArea: 190000005a00000019000000
-    listEnemySpawnInArea:
-    - {fileID: 6193892327511114364, guid: 7e04eef95fe06ce43855d3a5c54cdedc, type: 3}
-    - {fileID: 6193892327511114364, guid: 857231ad5a5d67a4da057f459ffd9672, type: 3}
-    - {fileID: 6193892327511114364, guid: d400aeee4fdd809428bb360099fe0809, type: 3}
+  listAreaDatas:
+  - objAreaPrefab: {fileID: 8479079541239549948, guid: 2c420433ee7275e45be1dacaead9e49c, type: 3}
+    navMeshArea: {fileID: 23800000, guid: 2b4990859261e504eb4eb9f3af54afc3, type: 2}

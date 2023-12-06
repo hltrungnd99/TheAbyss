@@ -15,3 +15,7 @@ MonoBehaviour:
   listAreaDatas:
   - objAreaPrefab: {fileID: 8479079541239549948, guid: 2c420433ee7275e45be1dacaead9e49c, type: 3}
     navMeshArea: {fileID: 23800000, guid: 2b4990859261e504eb4eb9f3af54afc3, type: 2}
+  - objAreaPrefab: {fileID: 8479079541239549948, guid: 2c420433ee7275e45be1dacaead9e49c, type: 3}
+    navMeshArea: {fileID: 23800000, guid: 2b4990859261e504eb4eb9f3af54afc3, type: 2}
+  - objAreaPrefab: {fileID: 8479079541239549948, guid: 2c420433ee7275e45be1dacaead9e49c, type: 3}
+    navMeshArea: {fileID: 23800000, guid: 2b4990859261e504eb4eb9f3af54afc3, type: 2}

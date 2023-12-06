@@ -13,7 +13,8 @@ public class Area : MonoBehaviour
 
     public Vector3 areaPosition = new Vector3();
     public Quaternion areaRotation = new Quaternion();
-    public int areaIDData;
+    public int areaIndex;
+    public int areaIdData;
     public int areaIDCheckPool;
     public PoolType poolType;
 
@@ -38,7 +39,7 @@ public class Area : MonoBehaviour
         var index = DataProvider.instance.dataLevel.dataInArea.Length;
         for (var i = 0; i < index; i++)
         {
-            if (areaIDData != DataProvider.instance.dataLevel.dataInArea[i].areaID) continue;
+            if (areaIndex != DataProvider.instance.dataLevel.dataInArea[i].areaIndex) continue;
             levelElement = DataProvider.instance.dataLevel.dataInArea[i];
             isSideArea = levelElement.isSideArea;
         }

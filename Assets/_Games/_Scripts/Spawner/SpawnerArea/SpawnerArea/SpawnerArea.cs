@@ -1,24 +1,25 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class SpawnerArea : Spawner
 {
-    [SerializeField] protected int countArea;
     [SerializeField] protected int startIDArea;
     [SerializeField] protected List<Area> listAreaSpawnInGame = new();
     [SerializeField] protected List<Transform> listTransformAreaInGame = new();
     public List<Area> listAllArea = new();
 
-    private void Start()
+    public void LoadAreas(LevelData levelData)
     {
-        OnInit();
-    }
-
-    protected virtual void OnInit()
-    {
-        for (var i = 0; i < countArea; i++)
+        for (var i = 0; i < levelData.dataInArea.Length; i++)
         {
-            SpawnArea(listTransformAreaInGame[i].position, listTransformAreaInGame[i].rotation, PoolType.Area, i + 1);
+            var areaInLevel = levelData.dataInArea[i];
+            var areaParent = new GameObject("Area_" + areaInLevel.areaIndex);
+            areaParent.transform.SetParent(transform);
+            areaParent.transform.position = areaInLevel.areaPosition;
+            areaParent.transform.rotation = Quaternion.Euler(areaInLevel.areaRotation);
+            SpawnArea(areaInLevel, areaParent.transform);
             SetDataAreaOnit(i);
         }
 
@@ -48,17 +49,26 @@ public class SpawnerArea : Spawner
         }
     }
 
-    protected virtual void SpawnArea(Vector3 pos, Quaternion rot, PoolType type, int id)
+    protected virtual void SpawnArea(LevelElement areaInLevel, Transform areaParent)
     {
-        var go = Pooling.instance.GetPool(pos, rot, type);
-        var area = go.GetComponent<Area>();
-        SetArea(id, area);
+        StartCoroutine(IELoadArea((areaData) =>
+        {
+            var area = Instantiate(areaData.objAreaPrefab, areaParent);
+            SetArea(areaIndex, area);
+        }));
+    }
+
+    private IEnumerator IELoadArea(Action<AreaData> callback = null)
+    {
+        var request = Resources.LoadAsync<AreaData>(Const.pathArea + GameData.instance.currentLevel);
+        yield return request;
+        callback?.Invoke(request.asset as AreaData);
     }
 
     protected virtual void SetArea(int i, Area area)
     {
         listAreaSpawnInGame.Add(area);
-        area.areaIDData = i;
+        area.areaIndex = i;
         area.ActiveArea();
     }
 

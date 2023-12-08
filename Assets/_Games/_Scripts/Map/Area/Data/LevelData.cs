@@ -12,7 +12,6 @@ public class LevelElement
 {
     public bool isSideArea;
     public int countEnemyNomalInArea;
-    public int areaIndex;
     public int areaId;
     public Vector3 areaPosition;
     public Vector3 areaRotation;

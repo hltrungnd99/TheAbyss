@@ -1,27 +1,32 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
+using UnityEngine.AI;
+using Random = UnityEngine.Random;
 
 public class Area : MonoBehaviour
 {
     [SerializeField] protected bool isSideArea;
     [SerializeField] protected Transform sideAreaSpawnPos;
     [SerializeField] protected Transform enemySpawnPos;
-    [FormerlySerializedAs("areaElement")] [SerializeField] protected LevelElement levelElement;
     [SerializeField] protected List<EnemyController> listEnemySpawnFromArea = new();
     [SerializeField] protected EnemyZone enemyZone;
 
-    public Vector3 areaPosition = new Vector3();
-    public Quaternion areaRotation = new Quaternion();
+    [Space] [Header("data")] public LevelElement levelElement;
+    public AreaData areaData;
     public int areaIndex;
-    public int areaIdData;
-    public int areaIDCheckPool;
-    public PoolType poolType;
 
-    //void Start()
-    //{
-    //    SpawnArea();
-    //}
+    private NavMeshData _navMeshData;
+
+    // public Vector3 areaPosition = new Vector3();
+    // public Quaternion areaRotation = new Quaternion();
+    // public int areaIdData;
+    // public int areaIDCheckPool;
+    // public PoolType poolType;
+
+    void Start()
+    {
+        SpawnEnemy();
+    }
     private void Update()
     {
         //if (Input.GetKeyDown(KeyCode.Alpha1))
@@ -34,29 +39,16 @@ public class Area : MonoBehaviour
         //}
     }
 
-    private void GetData()
+    private void GetData(LevelElement levelElement2)
     {
-        var index = DataProvider.instance.dataLevel.dataInArea.Length;
-        for (var i = 0; i < index; i++)
-        {
-            if (areaIndex != DataProvider.instance.dataLevel.dataInArea[i].areaIndex) continue;
-            levelElement = DataProvider.instance.dataLevel.dataInArea[i];
-            isSideArea = levelElement.isSideArea;
-        }
-
+        levelElement = levelElement2;
+        isSideArea = levelElement.isSideArea;
         CheckIsSideArea();
     }
 
     private void CheckIsSideArea()
     {
-        if (isSideArea)
-        {
-            sideAreaSpawnPos.gameObject.SetActive(true);
-        }
-        else
-        {
-            sideAreaSpawnPos.gameObject.SetActive(false);
-        }
+        sideAreaSpawnPos.gameObject.SetActive(isSideArea);
     }
 
     protected virtual Vector3 GetPosEnemy()
@@ -97,10 +89,28 @@ public class Area : MonoBehaviour
     //        return pos -= new Vector3(ranX, 0, ranZ);
     //    }
     //}
-    public virtual void ActiveArea()
+    public virtual void ActiveArea(LevelElement areaInLevel, int areaIndex2, AreaData areaData2)
     {
-        GetData();
+        areaData = areaData2;
+        areaIndex = areaIndex2;
+        GetData(areaInLevel);
+        ActiveNavMesh();
         SpawnEnemy();
+    }
+
+    private void ActiveNavMesh()
+    {
+        if (areaData.navMeshArea == null)
+        {
+            Debug.LogError("NavMeshData is not assigned!");
+            return;
+        }
+
+        _navMeshData = Instantiate(areaData.navMeshArea);
+        _navMeshData.position = transform.position;
+        _navMeshData.rotation = transform.rotation;
+
+        NavMesh.AddNavMeshData(_navMeshData);
     }
 
     public virtual void DeActiveArea()
@@ -118,7 +128,6 @@ public class Area : MonoBehaviour
             enemyZone.AddEnemyToZone(go);
             listEnemySpawnFromArea.Add(go);
         }
-        //SetUpPosEnemy(0);
     }
 
     protected virtual void ReturnSpawnerEnemy()

@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e727d86e1e023c49be9319bfbe1bb73, type: 3}
+  m_Name: Area_0
+  m_EditorClassIdentifier: 
+  objAreaPrefab: {fileID: 8479079541239549950, guid: 2c420433ee7275e45be1dacaead9e49c, type: 3}
+  navMeshArea: {fileID: 23800000, guid: 2b4990859261e504eb4eb9f3af54afc3, type: 2}

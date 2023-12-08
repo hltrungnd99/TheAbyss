@@ -314,6 +314,7 @@ MonoBehaviour:
   navMeshEnemy: {fileID: 6193892327511114367}
   objTarget: {fileID: 6193892327580899879}
   poolType: 1
+  originPos: {x: 0, y: 0, z: 0}
 --- !u!195 &6193892327511114367
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -321,7 +322,7 @@ NavMeshAgent:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6193892327511114352}
-  m_Enabled: 1
+  m_Enabled: 0
   m_AgentTypeID: 0
   m_Radius: 0.5
   m_Speed: 3

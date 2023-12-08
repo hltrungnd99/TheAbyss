@@ -2,59 +2,53 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class SpawnerArea : Spawner
 {
-    [SerializeField] protected int startIDArea;
-    [SerializeField] protected List<Area> listAreaSpawnInGame = new();
-    [SerializeField] protected List<Transform> listTransformAreaInGame = new();
     public List<Area> listAllArea = new();
 
     public void LoadAreas(LevelData levelData)
     {
+        NavMesh.RemoveAllNavMeshData();
         for (var i = 0; i < levelData.dataInArea.Length; i++)
         {
             var areaInLevel = levelData.dataInArea[i];
-            var areaParent = new GameObject("Area_" + areaInLevel.areaIndex);
+            var areaParent = new GameObject("Area_" + i);
             areaParent.transform.SetParent(transform);
             areaParent.transform.position = areaInLevel.areaPosition;
             areaParent.transform.rotation = Quaternion.Euler(areaInLevel.areaRotation);
-            SpawnArea(areaInLevel, areaParent.transform);
-            SetDataAreaOnit(i);
+            SpawnArea(areaInLevel, areaParent.transform, i);
         }
 
-        listAllArea = new List<Area>(listAreaSpawnInGame);
         DeActiveAllArea();
     }
 
-    protected virtual void ActiveArea(int id)
+    protected virtual void DeActiveAreaID(int id)
     {
         for (var i = 0; i < listAllArea.Count; i++)
         {
-            if (listAllArea[i].areaIDCheckPool != id) continue;
-            var are = listAllArea[i];
-            are.gameObject.SetActive(true);
-            SetArea(id, are);
-        }
-    }
-
-    protected virtual void DeActiveArea(int id)
-    {
-        for (var i = 0; i < listAllArea.Count; i++)
-        {
-            if (listAllArea[i].areaIDCheckPool != id) continue;
+            if (listAllArea[i].levelElement.areaId != id) continue;
             listAllArea[i].DeActiveArea();
-            Pooling.instance.ReturnPool(listAllArea[i].gameObject, listAllArea[i].poolType);
-            listAreaSpawnInGame.Remove(listAllArea[i]);
         }
     }
 
-    protected virtual void SpawnArea(LevelElement areaInLevel, Transform areaParent)
+    protected virtual void DeActiveAreaIndex(int index)
+    {
+        for (var i = 0; i < listAllArea.Count; i++)
+        {
+            if (listAllArea[i].areaIndex != index) continue;
+            listAllArea[i].DeActiveArea();
+        }
+    }
+
+    protected virtual void SpawnArea(LevelElement areaInLevel, Transform areaParent, int areaIndex)
     {
         StartCoroutine(IELoadArea((areaData) =>
         {
             var area = Instantiate(areaData.objAreaPrefab, areaParent);
-            SetArea(areaIndex, area);
+            listAllArea.Add(area);
+            SetArea(areaInLevel, area, areaIndex, areaData);
         }));
     }
 
@@ -65,52 +59,21 @@ public class SpawnerArea : Spawner
         callback?.Invoke(request.asset as AreaData);
     }
 
-    protected virtual void SetArea(int i, Area area)
+    protected virtual void SetArea(LevelElement areaInLevel, Area area, int areaIndex, AreaData areaData)
     {
-        listAreaSpawnInGame.Add(area);
-        area.areaIndex = i;
-        area.ActiveArea();
+        area.transform.localPosition = Vector3.zero;
+        area.transform.localRotation = Quaternion.identity;
+        area.ActiveArea(areaInLevel, areaIndex, areaData);
     }
 
     protected virtual void DeActiveAllArea()
     {
         for (var i = 0; i < listAllArea.Count; i++)
         {
-            if (listAllArea[i].areaIDCheckPool != startIDArea)
+            if (listAllArea[i].areaIndex != 0)
             {
-                DeActiveArea(listAllArea[i].areaIDCheckPool);
+                DeActiveAreaID(listAllArea[i].levelElement.areaId);
             }
-        }
-    }
-
-    protected virtual void SetDataAreaOnit(int index)
-    {
-        listAreaSpawnInGame[index].areaIDCheckPool = index + 1;
-        listAreaSpawnInGame[index].areaPosition = listAreaSpawnInGame[index].transform.position;
-        listAreaSpawnInGame[index].areaRotation = listTransformAreaInGame[index].transform.rotation;
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            DeActiveAllArea();
-        }
-
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            DeActiveArea(2);
-            DeActiveArea(3);
-        }
-
-        if (Input.GetKeyDown(KeyCode.Alpha4))
-        {
-            ActiveArea(3);
-        }
-
-        if (Input.GetKeyDown(KeyCode.Alpha5))
-        {
-            ActiveArea(2);
         }
     }
 }

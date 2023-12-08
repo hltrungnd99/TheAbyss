@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using _Games._Scripts.Controllers.Player;
@@ -11,9 +10,9 @@ public class EnemyController : CharacterController
     [SerializeField] protected GameObject objTarget;
 
     private List<PlayerController> listPlayerInZone = new();
-    private Vector3 originPos;
     private bool isInFirstPos = true;
     public PoolType poolType;
+    public Vector3 originPos;
 
     protected override void SetupAwake()
     {
@@ -33,16 +32,27 @@ public class EnemyController : CharacterController
     {
         base.SetupStart();
 
-        newGo = new GameObject();
-        StartCoroutine(IEDelayCache());
+        // StartCoroutine(IEDelayCache());
     }
 
-    private IEnumerator IEDelayCache()
-    {
-        originPos = transform.position;
-        yield return new WaitUntil(() => gameObject.activeInHierarchy);
+    public GameObject go;
 
-        // navMeshEnemy.SetDestination(originPos);
+    public IEnumerator IESetDestination(Vector3 pos)
+    {
+        navMeshEnemy.enabled = true;
+        yield return new WaitUntil(() => gameObject.activeInHierarchy && navMeshEnemy.enabled);
+        originPos = pos;
+        go = new GameObject();
+        go.transform.position = pos;
+        navMeshEnemy.SetDestination(pos);
+    }
+
+    public void SetDestination(Vector3 pos)
+    {
+        navMeshEnemy.enabled = true;
+        originPos = pos;
+
+        navMeshEnemy.SetDestination(pos);
     }
 
     public override void ActiveTarget(bool isActive)
@@ -61,6 +71,9 @@ public class EnemyController : CharacterController
         {
             ChangeStateMachine(new IdleStateMachine());
         }
+
+        if (go && navMeshEnemy.enabled)
+            navMeshEnemy.SetDestination(go.transform.position);
     }
 
     protected override void Dead()
@@ -118,8 +131,6 @@ public class EnemyController : CharacterController
         isInFirstPos = false;
     }
 
-    public GameObject newGo;
-
     public override void ExcuteChase()
     {
         base.ExcuteChase();
@@ -129,7 +140,6 @@ public class EnemyController : CharacterController
             navMeshEnemy.enabled = true;
             navMeshEnemy.isStopped = false;
             var pos = transCharTarget.position;
-            newGo.transform.position = pos;
             navMeshEnemy.SetDestination(pos);
 
             if (IsCanNormalAttack())

@@ -18,9 +18,12 @@ public class SpawnerEnemyArea : Spawner
     public virtual EnemyController SpawnerEnemyInArea(List<int> weight, List<EnemyController> listEnemyWeigh,
         Vector3 pos, Quaternion rot)
     {
-        var enemy = GetEnemyFromWeight(weight, listEnemyWeigh);
-        var go = Pooling.instance.GetPool(pos, rot, enemy.poolType);
-        return go.GetComponent<EnemyController>();
+        var enemyInWeight = GetEnemyFromWeight(weight, listEnemyWeigh);
+        var go = Pooling.instance.GetPool(pos, rot, enemyInWeight.poolType);
+        var enemy = go.GetComponent<EnemyController>();
+        enemy.transform.position = pos;
+        StartCoroutine(enemy.IESetDestination(pos));
+        return enemy;
     }
 
     public virtual void DeSpawnerEnemyInArea(GameObject go, PoolType type)
